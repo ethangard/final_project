@@ -30,7 +30,7 @@ export const Article = {
   //   return fetch(`${baseURL}/articles/${id}`).then((res) => res.json())
   // },
   async show(id) {
-    const req =  await fetch(`${baseURL}/articles/${id}`)
+    const req = await fetch(`${baseURL}/articles/${id}`)
     return await req.json()
   },
   update(id, params) {
@@ -50,6 +50,40 @@ export const Article = {
     })
   },
 }
-  
 
+export const Session = {
+  create(params) {
+    return fetch(`${baseURL}/session`, {
+      method: 'POST',
+      credentials: 'include', // need for cookies to be sent cross origin
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    }).then((res) => res.json())
+  },
+  destroy() {
+    return fetch(`${baseURL}/session`, {
+      method: 'DELETE',
+      credentials: 'include', // need for cookies to be sent cross origin
+    }).then((res) => res.json())
+  },
+}
 
+export const User = {
+  current() {
+    return fetch(`${baseURL}/users/current`, {
+      credentials: 'include', // need for cookies to be allowed to be sent cross-origin
+    }).then((res) => res.json())
+  },
+  create(params) {
+    return fetch(`${baseURL}/users`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: params }),
+    }).then((res) => res.json())
+  },
+}

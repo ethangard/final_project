@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Article } from '../requests'
+import { Article } from '../../requests'
 
 const ArticleIndex = () => {
   const [articles, setArticles] = useState([])

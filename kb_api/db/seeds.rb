@@ -28,6 +28,14 @@ def rand_tag(arr)
   return_arr
 end
 
+admin_user = 
+  User.create({
+      first_name: "Ethan",
+      last_name: "Gard",
+      email: "test@test.com",
+      password: PASSWORD
+  })
+
 10.times do
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
@@ -41,13 +49,6 @@ end
 
 users = User.all
 
-admin_user = 
-  User.create({
-      first_name: "Ethan",
-      last_name: "Gard",
-      email: "test@test.com",
-      password: PASSWORD
-  })
 
 users = User.all
 

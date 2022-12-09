@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Article } from '../requests'
+import { Article } from '../../requests'
 
 const ArticleShow = () => {
   const articleID = useParams()
