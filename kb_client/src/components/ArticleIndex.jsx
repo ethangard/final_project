@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { Article } from '../requests'
 
 const ArticleIndex = () => {
@@ -9,6 +10,8 @@ const ArticleIndex = () => {
       const data = await Article.index()
       setArticles(data)
     }
+
+    fetchData()
   }, [])
 
   return (
@@ -16,12 +19,27 @@ const ArticleIndex = () => {
       <div>ArticleIndex</div>
       {articles.map((a, i) => {
         return (
-          <div key={i}>
-            <h3>Title: {a.title}</h3>
-            <p>Body: {a.body}</p>
-            <p>Collection {a.collection}</p>
-            <p>Tags: {a.tags}</p>
-          </div>
+          <Link to={`./${a.id}`} className="link" key={i}>
+            <div className="card">
+              <h3>Title: {a.title}</h3>
+              <p>
+                <span className="bold">Body:</span> {a.body}
+              </p>
+              <p>
+                <span className="bold">Collection:</span> {a.collection}
+              </p>
+              <p>
+                <span className="bold">Tags: </span>
+                {a.tags.map((t, i) => {
+                  return i === a.tags.length - 1 ? (
+                    <span key={i}>{t}</span>
+                  ) : (
+                    <span key={i}>{t}, </span>
+                  )
+                })}
+              </p>
+            </div>
+          </Link>
         )
       })}
     </>
