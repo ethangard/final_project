@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "final prject ",
+      "database": "kb_api_development",
+      "username": "ethangard",
+      "password": "test123"
+    }
+  ]
+}

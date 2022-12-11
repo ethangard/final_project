@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Article } from '../../requests'
+import { useNavigate } from 'react-router-dom'
+import TipTap from '../RTE/TipTap'
+import ArticleEdit from './ArticleEdit'
 
 const ArticleShow = () => {
   const articleID = useParams()
   const [article, setArticle] = useState({})
+  const [errors, setErrors] = useState([])
+  const [editMode, setEditMode] = useState(false)
+  const navigate = useNavigate()
   // const [isFetched, setIsFetched] = useState(false)
 
   useEffect(() => {
@@ -16,35 +22,77 @@ const ArticleShow = () => {
     // setIsFetched(true)
   }, [])
 
+  function editArticle(id, params) {
+    Article.update(id, params).then((article) => {
+      if (article.errors) {
+        console.log(`ArticleErrors: ${article.errors}`, article.errors)
+        setErrors({ errors: article.errors })
+      } else {
+        console.log()
+        navigate(`/articles/${articleID.id}`)
+      }
+    })
+  }
+
+  function changeEditMode() {
+    editMode === true ? setEditMode(false) : setEditMode(true)
+  }
+
+  const updateEditModeRemote = () => {
+    setEditMode(false)  
+    reRenderPage()
+  }
+
+  const reRenderPage = () => {
+    console.log({...article})
+    setArticle({...article})
+  }
+
   const test = [1, 2, 3]
 
   const arrTags = article.tags
 
   // if (!isFetched) return null
-  return (
-    <>
-{/*       {console.log(article)}
-      {console.log(article.tags)} */}
-      <div>ArticleShow</div>
-      <div key={article.id}>
-        <h3>Title: {article.title}</h3>
-        <p>Body: {article.body}</p>
-        <p>Collection: {article.collection}</p>
-      <div>
-          Tags:{' '}
-          {article.tags?.map((t, i) => {
-            /*    return(<p>{t}</p>) */
-            return (
-              <div key={i}>
-                <label htmlFor={t}>{t}</label>
-                <input type="checkbox" name={t} value={t} />
-              </div>
-            )
-          })}
+
+  if (!editMode) {
+    return (
+      // <ArticleEdit submitForm={(id, params) => editArticle(id, params)} />
+
+      <>
+        <div>ArticleShow</div>
+        <div key={article.id}>
+          {/* <Link to="./edit"> */}
+          <button onClick={changeEditMode}>Edit</button>
+          {/* </Link> */}
+
+          <h3>Title: {article.title}</h3>
+          <p>Body: {article.body}</p>
+          <p>Collection: {article.collection}</p>
+          <div>
+            Tags:{' '}
+            {article.tags?.map((t, i) => {
+              /*    return(<p>{t}</p>) */
+              return (
+                <div key={i}>
+                  <label htmlFor={t}>{t}</label>
+                  <input type="checkbox" name={t} value={t} />
+                </div>
+              )
+            })}
+          </div>
         </div>
-      </div>
-    </>
-  )
+      </>
+    )
+  } else {
+    return (
+      <ArticleEdit
+        submitForm={(id, params, changeEditMode) =>
+          editArticle(id, params, changeEditMode)
+        }
+        onEditUpdateSubmit={updateEditModeRemote}
+      />
+    )
+  }
 }
 
 export default ArticleShow

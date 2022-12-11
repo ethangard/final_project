@@ -17,7 +17,15 @@ class Api::V1::ArticlesController < Api::ApplicationController
   end
 
   def update
-
+    article = Article.find(params[:id])
+        if article.update(article_params)
+            render json: {id: article.id }
+        else
+            render(
+                json: { errors: article.errors.messages },
+                status: 422
+            )
+        end
   end
 
   def destroy
@@ -28,7 +36,7 @@ class Api::V1::ArticlesController < Api::ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :body, :collection, :tags)
+    params.require(:article).permit(:title, :body, :collection, :tags, :user_id)
   end
 
 end

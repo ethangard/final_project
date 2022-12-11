@@ -46,11 +46,66 @@ body {
   color: #000;
 }
 
-
 /* Custom Styles */
 /* Article Index Component */
+.editor-container {
+  padding: 1em;
+  margin: 1em;
+  user-select: none;
+  outline: none;
+}
 
-@import './styles/ArticleIndexStyles.css'
+.editor-container:focus-visible {
+  outline: none;
+  user-select: none;
+}
 
-/* Universal Styles */
+.editor-container > button {
+  border: none;
+  background-color: #efefef;
+  padding: 0.5em;
+  border: 1px solid #000;
+  border-radius: 4px;
+}
 
+.editor-container > div {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 1em;
+  box-shadow: 3px 2px 8px #000;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+/* Remove the outline from the RTE */
+* {
+  outline: none;
+}
+
+
+
+
+
+
+/* Tag buttons */
+
+.tags-container {
+  border: 1px solid black;
+  width: 100%;
+  height: auto;
+  padding: 1em;
+  margin: 0.2em
+}
+
+.tag {
+  display: inline-block;
+  margin: 0.2em;
+  border: 1px solid #000;
+  padding: 0.1em;
+  border-radius: 8px;
+}
+
+
+@import './styles/ArticleIndexStyles.css'; /* Universal Styles */

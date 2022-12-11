@@ -1,38 +1,39 @@
 import { User } from '../../requests'
 import { useEffect, useState } from 'react'
+import TipTap from '../RTE/TipTap'
 
 const ArticleForm = (props) => {
-
   const [user, setUser] = useState(null)
 
-    useEffect(() => {
-      getCurrentUser()
-    }, [])
-
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
 
   const getCurrentUser = () => {
     return User.current().then((user) => {
-      console.log(`CurrentUser:`, user)
+      // console.log(`CurrentUser:`, user)
       if (user?.id) {
         setUser(user)
       }
     })
   }
 
-
-
   const getDataAndSubmit = (event) => {
     event.preventDefault()
     const fd = new FormData(event.currentTarget)
 
-    console.log(fd)
+    const formTags = fd.get('tags')
+    const filterTags = formTags.split(',')
+    const trimTags = filterTags.map((s) => s.trim())
+    console.log(trimTags)
+
     props.submitForm({
       title: fd.get('title'),
       body: fd.get('body'),
       collection: fd.get('collection'),
-      tags: fd.get('tags'),
+      tags: trimTags.toString(),
       created_at: new Date(),
-      user_id: user.id
+      user_id: user.id,
     })
     event.currentTarget.reset()
   }
@@ -47,6 +48,7 @@ const ArticleForm = (props) => {
       <div>
         <label htmlFor="body">Body</label>
         <br />
+        <TipTap />
         <input type="text" name="body" id="" />
       </div>
       <div>

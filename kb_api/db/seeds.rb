@@ -49,10 +49,6 @@ end
 
 users = User.all
 
-
-users = User.all
-
-
 20.times do
 
   created_at = Faker::Date.backward(days: 365 * 5)
@@ -76,14 +72,6 @@ users = User.all
   end
 
 end
-
-admin_user = 
-  User.create({
-      first_name: "Ethan",
-      last_name: "Gard",
-      email: "test@test.com",
-      password: PASSWORD
-  })
 
 puts "You've just created #{Article.count} Articles 📚"
 puts "You've just created #{Comment.count} Comments 💬"
