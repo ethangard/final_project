@@ -12,7 +12,7 @@
 Article.destroy_all
 Comment.destroy_all
 User.destroy_all
-# Tag.destroy_all
+# railsTag.destroy_all
 
 collection_array = ["Collection A", "Collection B", "Collection C", "Collection D"]
 
@@ -80,16 +80,19 @@ inactive_user =
   })
 
 
-# 25.times do 
-#   Tag.create({
-#     name: Faker::ProgrammingLanguage.name
-#   })
-# end
+
 
 
 # def test_tag_create
   
 # end
+
+
+20.times do
+    Tag.create(
+        name: Faker::ProgrammingLanguage.name
+    )
+end
 
 10.times do
     first_name = Faker::Name.first_name
@@ -103,7 +106,7 @@ inactive_user =
 end
 
 users = User.all
-# tags = Tag.all
+tags = Tag.all
 # p tags
 
 20.times do
@@ -127,7 +130,7 @@ users = User.all
     # tags: Tag.create({
     #   name: "test_tag"
     # }),
-    tags: 
+    # tags: 
     collection: collection_array.sample,
     created_at: created_at,
     user: users.sample
@@ -142,11 +145,22 @@ users = User.all
         article: a, user: users.sample
       })
     end
+     a.tags = tags.shuffle.slice(0, rand(tags.count))
   end
-
 end
+
+articles = Article.all
+
+
+25.times do 
+  Tag.create({
+    name: Faker::ProgrammingLanguage.name,
+    # article_id: 1
+  })
+end
+
 
 puts "You've just created #{Article.count} Articles 📚"
 puts "You've just created #{Comment.count} Comments 💬"
 puts "You've just created #{User.count} Users 👽"
-# puts "You've just created #{Tag.count} Tags 🏷️"
+puts "You've just created #{Tag.count} Tags 🏷️"

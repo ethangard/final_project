@@ -11,7 +11,13 @@ class Api::V1::ArticlesController < Api::ApplicationController
   end
 
   def create
-    article = Article.new(article_params)
+    puts "bananna"
+    # p article_params[:tags]
+    article = Article.new(title: article_params[:title], body: article_params[:body], collection: article_params[:collection],user_id: article_params[:user_id] )
+    p "yama tags"
+    p article_params[:tags]
+    # article.tags = article_params[:tags]
+    # p article_params.tags
     article.save!
     render json: {id: article.id}
   end

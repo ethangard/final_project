@@ -86,7 +86,7 @@ const ArticleEdit = (props) => {
       collection: fd.get('collection'),
       tags: trimTags.toString(),
       // created_at: new Date(),
-      user_id: user.id,
+      user_id: user.id, 
     })
 
     // // setArticle()
@@ -129,7 +129,7 @@ const ArticleEdit = (props) => {
                   <div key={i} className="tag">
                     <label htmlFor={t}>{t}</label>
                     <input type="checkbox" name={t} value={t} />
-                  </div>
+                  </div> 
                 )
               })}
             </div>

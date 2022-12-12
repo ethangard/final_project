@@ -36,7 +36,7 @@ const TipTap = (props) => {
 
     const fetchData = async () => {
       const data = await props
-      setInitialContent(data.props)
+      setInitialContent(data.props) 
       // console.log(data.props)
     }
     // console.log(`UseEffect Log from TipTap:`)
@@ -45,11 +45,11 @@ const TipTap = (props) => {
     // setInitialContent(props)
 
     // }
-
-    //  fetchedData()
+ 
+    //  fetchedData()    
 
     fetchData()
-  }, [])
+  }, []) 
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -61,7 +61,7 @@ const TipTap = (props) => {
     const fontList = [
       { label: 'Sans-serif', value: 'sans-serif' },
       { label: 'Sans-serif', value: 'sans-serif' },
-    ]
+    ]  
 
     const [font, setFont] = useState('')
 

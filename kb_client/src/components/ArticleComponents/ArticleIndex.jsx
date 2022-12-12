@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Article } from '../../requests'
+import SearchBar from '../SearchComponents/SearchBar'
 
 const ArticleIndex = () => {
   const [articles, setArticles] = useState([])
@@ -17,6 +18,7 @@ const ArticleIndex = () => {
   return (
     <>
       <div>ArticleIndex</div>
+      < SearchBar />
       {articles.map((a, i) => {
         return (
           <Link to={`./${a.id}`} className="link" key={i}>
@@ -31,8 +33,8 @@ const ArticleIndex = () => {
               <p>
                 <span className="bold">Tags: </span>
          {/*        {console.log(a)} */}
-                {console.log((a))}
-                {console.log(a.tags)} 
+{/*                 {console.log((a))}
+                {console.log(a.tags)}  */}
                 {/* {JSON.parse(a.tags).map((t, i) => {
                   return i === a.tags.length - 1 ? (
                     <span key={i}>{t}</span>

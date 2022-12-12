@@ -25,14 +25,15 @@ const ArticleForm = (props) => {
     const formTags = fd.get('tags')
     const filterTags = formTags.split(',')
     const trimTags = filterTags.map((s) => s.trim())
-    console.log(trimTags)
+    // console.log(trimTags)
 
     props.submitForm({
       title: fd.get('title'),
       body: fd.get('body'),
       collection: fd.get('collection'),
       tags: trimTags.toString(),
-      created_at: new Date(),
+      // tags: fd.get('tags'),
+      // created_at: new Date(),
       user_id: user.id,
     })
     event.currentTarget.reset()

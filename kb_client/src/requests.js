@@ -51,6 +51,34 @@ export const Article = {
   },
 }
 
+export const Search = {
+  async query(params) {
+      const req = await fetch(
+        `${baseURL}/searches`,
+        new URLSearchParams({
+          query: params,
+        })
+      )
+    // const req = await fetch(`${baseURL}/searches`, {
+    //   method: 'POST',
+    //   credentials: 'include', // need this for cookies
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //   },
+    //   body: JSON.stringify(params),
+    // })
+
+    // const req = await fetch(`${baseURL}/searches`, {
+    //   query: params,
+    // })
+
+    // onst req = await fetch(`${baseURL}/searches/${params}`)
+    // console.log(`React Request`)
+    // console.log(req)
+    return await req.json()
+  },
+}
+
 export const Session = {
   create(params) {
     return fetch(`${baseURL}/session`, {
