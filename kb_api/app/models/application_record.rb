@@ -1,5 +1,11 @@
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
+  # def serializable_hash(options = {})
+  #   hash = super
+  #   return hash unless options[:camelize]
+
+  #   hash.deep_transform_keys { |key| key.to_s.camelize(options[:camelize]) }
+  # end
 end
 
 

@@ -29,11 +29,25 @@ function App() {
     })
   }
 
+  const isAdmin = () => {
+    //  user.isAdmin?
+  }
+
   const onSignOut = () => {
     setUser(null)
   }
 
   /* User Sessions end */
+  console.log(user)
+
+  const isActive = () => {
+    const testUser = User.current().then((user) => {
+      if (user?.id) {
+        setUser(user)
+      }
+    })
+    return user
+  }
 
   return (
     <>

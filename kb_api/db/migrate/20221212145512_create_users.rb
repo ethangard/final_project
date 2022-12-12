@@ -5,10 +5,9 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :last_name
       t.string :email
       t.string :password_digest
-      t.references :article, null: false, foreign_key: true
-      t.references :comment, null: false, foreign_key: true
 
       t.timestamps
     end
+    add_index :users, :email
   end
 end

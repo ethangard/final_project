@@ -30,13 +30,16 @@ const ArticleIndex = () => {
               </p>
               <p>
                 <span className="bold">Tags: </span>
-                {a.tags.map((t, i) => {
+         {/*        {console.log(a)} */}
+                {console.log((a))}
+                {console.log(a.tags)} 
+                {/* {JSON.parse(a.tags).map((t, i) => {
                   return i === a.tags.length - 1 ? (
                     <span key={i}>{t}</span>
                   ) : (
                     <span key={i}>{t}, </span>
                   )
-                })}
+                })} */}
               </p>
             </div>
           </Link>

@@ -1,3 +1,4 @@
+# require 'ostruct'
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
@@ -11,21 +12,45 @@
 Article.destroy_all
 Comment.destroy_all
 User.destroy_all
+# Tag.destroy_all
 
 collection_array = ["Collection A", "Collection B", "Collection C", "Collection D"]
 
-tags = ["school","work","leisure","sleep", "eat", "pet dogs"]
+# tags = ["school","work","leisure","sleep", "eat", "pet dogs"]
 
 PASSWORD="123"
+
+# def rand_tag(arr)
+#   return_arr = []
+#   rand(2..4).times do
+#     sample = arr.sample
+#     return_arr.push(sample)
+#     # arr.delete(sample)
+#   end
+#   return_arr
+# end
 
 def rand_tag(arr)
   return_arr = []
   rand(2..4).times do
+
     sample = arr.sample
-    return_arr.push(sample)
+    # example = OpenStruct.new(:name => sample.name)
+    # example = OpenStruct.new(:name => sample.name)
+    # sample = arr.sample
+
+    # p "testing"
+    # p sample
+    # return_arr.push({"id": example.id, "name": example.name})
+    # return_arr.push(example.to_json(camelize: :lower))
+    # return_arr.push({id: sample.id, name: sample.name})
+    # return_arr.push({name: sample.name.to_s})
     # arr.delete(sample)
+    # return_arr.push({id: sample.id, name: sample.name.to_s})
+    return_arr.push(sample)
   end
-  return_arr
+    p return_arr
+    return_arr
 end
 
 admin_user = 
@@ -33,8 +58,38 @@ admin_user =
       first_name: "Ethan",
       last_name: "Gard",
       email: "test@test.com",
+      password: PASSWORD,
+      # permission_level: "admin"
+  })
+
+test_user = 
+  User.create({
+      first_name: "User",
+      last_name: "Test",
+      email: "user@user.com",
       password: PASSWORD
   })
+
+inactive_user = 
+    User.create({
+      first_name: "Inactive",
+      last_name: "Inative",
+      email: "dead@dead.com",
+      password: PASSWORD,
+      # active: false
+  })
+
+
+# 25.times do 
+#   Tag.create({
+#     name: Faker::ProgrammingLanguage.name
+#   })
+# end
+
+
+# def test_tag_create
+  
+# end
 
 10.times do
     first_name = Faker::Name.first_name
@@ -48,6 +103,8 @@ admin_user =
 end
 
 users = User.all
+# tags = Tag.all
+# p tags
 
 20.times do
 
@@ -56,11 +113,27 @@ users = User.all
   a = Article.create({
     title: Faker::Movie.title,
     body: Faker::Lorem.paragraph_by_chars,
-    tags: rand_tag(tags),
+    # tags: rand_tag(tags),
+    # tags: Tag.create({
+    #   name: "test"
+    # }, {
+    #   name: "test_two"
+    # }),
+    # tags: rand_tag(tags),
+    # tags: Tag.create({
+    #   name: rand_tag(tags)
+    # }),
+    # tags: rand_tag(tags),
+    # tags: Tag.create({
+    #   name: "test_tag"
+    # }),
+    tags: 
     collection: collection_array.sample,
     created_at: created_at,
     user: users.sample
   })
+
+  # tempId = a.id
 
   if a.valid?
     rand(2..4).times do
@@ -76,3 +149,4 @@ end
 puts "You've just created #{Article.count} Articles 📚"
 puts "You've just created #{Comment.count} Comments 💬"
 puts "You've just created #{User.count} Users 👽"
+# puts "You've just created #{Tag.count} Tags 🏷️"

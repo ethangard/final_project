@@ -1,0 +1,12 @@
+class AddArticlesTags < ActiveRecord::Migration[7.0]
+ def self.up
+    create_table :articles_tags, :id => false do |t|
+      t.integer :article_id
+      t.integer :tag_id
+    end
+  end
+
+  def self.down
+    drop_table :articles_tags
+  end
+end
