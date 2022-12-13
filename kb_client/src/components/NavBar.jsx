@@ -1,12 +1,14 @@
 import { NavLink } from 'react-router-dom'
 import { Session } from '../requests'
 
-const NavBar = ({ currentUser, onSignOut }) => {
+const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
   const handleSignOut = () => {
     Session.destroy().then(() => {
       onSignOut()
     })
   }
+
+  console.log(accessLevel)
 
   return (
     <nav>

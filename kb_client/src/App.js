@@ -10,7 +10,9 @@ import { Route, Routes } from 'react-router-dom'
 import ArticlesNew from './components/ArticleComponents/ArticlesNew'
 import SignInPage from './components/SignInComponents/SignInPage'
 import AuthRoutes from './components/SignInComponents/AuthRoutes'
+import ActiveRoutes from './components/SignInComponents/ActiveRoutes'
 import SignUpPage from './components/SignInComponents/SignUpPage'
+import SuspendedPage from './components/SuspendedPage'
 import TipTap from './components/RTE/TipTap'
 
 function App() {
@@ -27,12 +29,8 @@ function App() {
 
   useEffect(() => {
     getCurrentUser()
+    // isAdmin(user)
   }, [])
-
-
-  const isAdmin = () => {
-    //  user.isAdmin?
-  }
 
   const onSignOut = () => {
     setUser(null)
@@ -52,14 +50,16 @@ function App() {
 
   return (
     <>
-      <NavBar currentUser={user} onSignOut={onSignOut} />
+      <NavBar currentUser={user} onSignOut={onSignOut} accessLevel={user} />
       <Routes>
         <Route element={<AuthRoutes isAuthenticated={!!user} />}>
-          <Route path="/" element={<LandingPage />} />
-          <Route exact path="/articles" element={<ArticleIndex />} />
-          <Route exact path="/articles/new" element={<ArticlesNew />} />
-          <Route exact path="/articles/:id" element={<ArticleShow />} />
-          <Route exact path="/articles/:id/edit" element={<ArticleEdit />} />
+          <Route element={<ActiveRoutes isActive={user} />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route exact path="/articles" element={<ArticleIndex />} />
+            <Route exact path="/articles/new" element={<ArticlesNew />} />
+            <Route exact path="/articles/:id" element={<ArticleShow />} />
+            <Route exact path="/articles/:id/edit" element={<ArticleEdit />} />
+          </Route>
         </Route>
         <Route
           exact
@@ -71,6 +71,7 @@ function App() {
           path="/sign_up"
           element={<SignUpPage onSignUp={getCurrentUser} />}
         />
+        <Route exact path="/suspended" element={<SuspendedPage />} />
       </Routes>
     </>
   )

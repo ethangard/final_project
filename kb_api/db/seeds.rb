@@ -53,35 +53,53 @@ def rand_tag(arr)
     return_arr
 end
 
-admin_user = 
+ethan_user = 
   User.create({
       first_name: "Ethan",
       last_name: "Gard",
       email: "test@test.com",
       password: PASSWORD,
-      # permission_level: "admin"
+      admin: true,
+      permission_level: 'admin'
   })
 
-test_user = 
+admin_user = 
   User.create({
-      first_name: "User",
-      last_name: "Test",
-      email: "user@user.com",
-      password: PASSWORD
+      first_name: "Admin",
+      last_name: "Admin",
+      email: "admin@admin.com",
+      password: PASSWORD,
+      admin: true,
+      permission_level: 'admin'
+  })
+
+write = 
+  User.create({
+      first_name: "Write",
+      last_name: "Write",
+      email: "write@write.com",
+      password: PASSWORD,
+      permission_level: 'write'
+  })
+
+read_user = 
+  User.create({
+      first_name: "Read",
+      last_name: "Read",
+      email: "write@write.com",
+      password: PASSWORD,
+      permission_level: 'read'
   })
 
 inactive_user = 
     User.create({
       first_name: "Inactive",
-      last_name: "Inative",
+      last_name: "Inactive",
       email: "dead@dead.com",
       password: PASSWORD,
-      # active: false
+      active: false,
+      permission_level: 'read'
   })
-
-
-
-
 
 # def test_tag_create
   
