@@ -10,13 +10,14 @@ import ArticleForm from './ArticleForm'
 //   return <WrappedComponent {...props} navigate={navigate} />
 // }
 
-const ArticlesNew = () => {
+const ArticlesNew = (props) => {
   const navigate = useNavigate()
   const [newArticle, setNewArticle] = useState({})
   const [errors, setErrors] = useState([])
 
   function createNewArticle(params) {
     Article.create(params).then((article) => {
+      console.log(params)
       if (article.errors) {
         console.log(`ArticleErrors: ${article.errors}`, article.errors)
         setErrors({ errors: article.errors })
@@ -26,6 +27,8 @@ const ArticlesNew = () => {
       }
     })
   }
+
+  
 
   return (
     <>

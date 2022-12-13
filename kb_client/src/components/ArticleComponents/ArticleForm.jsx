@@ -1,12 +1,22 @@
-import { User } from '../../requests'
+import { Collection, User } from '../../requests'
 import { useEffect, useState } from 'react'
 import TipTap from '../RTE/TipTap'
 
 const ArticleForm = (props) => {
   const [user, setUser] = useState(null)
+  const [collections, setCollections] = useState([])
+  const [editorData, setEditorData] = useState('')
 
   useEffect(() => {
     getCurrentUser()
+
+    const fetchCollections = async () => {
+      const data = await Collection.index()
+      setCollections(data)
+    }
+
+    fetchCollections()
+    // console.log(collections)
   }, [])
 
   const getCurrentUser = () => {
@@ -16,6 +26,11 @@ const ArticleForm = (props) => {
         setUser(user)
       }
     })
+  }
+
+  const getTipTapData = (props) => {
+    setEditorData(props)
+    console.log(editorData)
   }
 
   const getDataAndSubmit = (event) => {
@@ -39,6 +54,43 @@ const ArticleForm = (props) => {
     event.currentTarget.reset()
   }
 
+  const searchCollections = (e) => {
+    console.log(e.currentTarget.value)
+
+    const filterVal = e.currentTarget.value
+    if (filterVal.length < 2) {
+      document.querySelector('#collection-output').innerHTML = ''
+      return
+    }
+
+    const filteredCol = collections.filter((c) => {
+      return c.name.toLowerCase().match(filterVal.toLowerCase())
+    })
+
+    // console.log(filteredCol)
+
+    if (filteredCol.length === 0) {
+      //document.querySelector('#collection-output').innerHTML = `Create <strong>${filterVal}</strong> as a tag?`
+      document.querySelector(
+        '#collection-output'
+      ).innerHTML = `Click here to create this collection: ${filterVal}`
+    } else {
+      document.querySelector('#collection-output').innerHTML = filteredCol.map(
+        (f) => f.name
+      )
+    }
+  }
+
+  const createCollection = (e) => {
+    const currVal = e.currentTarget.innerHTML
+    console.log(currVal)
+
+    Collection.create({ name: currVal }).then((res) => {
+      console.log(res)
+    })
+    setCollections({ collections })
+  }
+
   return (
     <form onSubmit={getDataAndSubmit}>
       <div>
@@ -49,13 +101,20 @@ const ArticleForm = (props) => {
       <div>
         <label htmlFor="body">Body</label>
         <br />
-        <TipTap />
+        <TipTap onChange={setEditorData} />
         <input type="text" name="body" id="" />
       </div>
       <div>
         <label htmlFor="collection">Collection</label>
         <br />
-        <input type="text" name="collection" id="" />
+        <input
+          type="text"
+          name="collection"
+          id=""
+          onChange={(e) => searchCollections(e)}
+          placeholder="Search for existing collections..."
+        />
+        <div onClick={(e) => createCollection(e)} id="collection-output"></div>
       </div>
       <div>
         <label htmlFor="tags">Tags</label>

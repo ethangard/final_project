@@ -39,13 +39,13 @@ const ArticleShow = () => {
   }
 
   const updateEditModeRemote = () => {
-    setEditMode(false)  
+    setEditMode(false)
     reRenderPage()
   }
 
   const reRenderPage = () => {
-    console.log({...article})
-    setArticle({...article})
+    console.log({ ...article })
+    setArticle({ ...article })
   }
 
   const test = [1, 2, 3]
@@ -69,14 +69,12 @@ const ArticleShow = () => {
           <p>Body: {article.body}</p>
           <p>Collection: {article.collection}</p>
           <div>
-            Tags:{' '}
+            {/* Tags: {console.log(article.tags)} */}
             {article.tags?.map((t, i) => {
-              /*    return(<p>{t}</p>) */
-              return (
-                <div key={i}>
-                  <label htmlFor={t}>{t}</label>
-                  <input type="checkbox" name={t} value={t} />
-                </div>
+              return i === article.tags.length - 1 ? (
+                <span key={i}>{t.name}</span>
+              ) : (
+                <span key={i}>{t.name}, </span>
               )
             })}
           </div>

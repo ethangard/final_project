@@ -17,10 +17,6 @@ function App() {
   /* User Sessions */
   const [user, setUser] = useState(null)
 
-  useEffect(() => {
-    getCurrentUser()
-  }, [])
-
   const getCurrentUser = () => {
     return User.current().then((user) => {
       if (user?.id) {
@@ -28,6 +24,11 @@ function App() {
       }
     })
   }
+
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
 
   const isAdmin = () => {
     //  user.isAdmin?
@@ -38,7 +39,7 @@ function App() {
   }
 
   /* User Sessions end */
-  console.log(user)
+  // console.log(user)
 
   const isActive = () => {
     const testUser = User.current().then((user) => {

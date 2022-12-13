@@ -52,32 +52,58 @@ export const Article = {
 }
 
 export const Search = {
-  async query(params) {
-      const req = await fetch(
-        `${baseURL}/searches`,
-        new URLSearchParams({
-          query: params,
-        })
-      )
-    // const req = await fetch(`${baseURL}/searches`, {
-    //   method: 'POST',
-    //   credentials: 'include', // need this for cookies
-    //   headers: {
-    //     'Content-type': 'application/json',
-    //   },
-    //   body: JSON.stringify(params),
-    // })
+  // async query(params) {
+  //   const req = await fetch(`${baseURL}/searches?q=${params}`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ params }),
+  //   }).then((resp) => resp.json())
+  // },
 
-    // const req = await fetch(`${baseURL}/searches`, {
-    //   query: params,
-    // })
-
-    // onst req = await fetch(`${baseURL}/searches/${params}`)
-    // console.log(`React Request`)
-    // console.log(req)
-    return await req.json()
-  },
+  // return (dispatch){
+  //   return fetch(`${baseURL}/searches?q=${params}`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ params }),
+  //   })
+  //     .then((resp) => resp.json())
+  //     .then((res) => {
+  //       dispatch({ type: 'FIND_DRINK', payload: res })
+  //     })
+  // }
 }
+
+// async query(params) {
+//     const req = await fetch(
+//       `${baseURL}/searches`,
+//       new URLSearchParams({
+//         query: params,
+//       })
+
+//       )
+//       return await req.json()
+// }
+// const req = await fetch(`${baseURL}/searches`, {
+//   method: 'POST',
+//   credentials: 'include', // need this for cookies
+//   headers: {
+//     'Content-type': 'application/json',
+//   },
+//   body: JSON.stringify(params),
+// })
+
+// const req = await fetch(`${baseURL}/searches`, {
+//   query: params,
+// })
+
+// onst req = await fetch(`${baseURL}/searches/${params}`)
+// console.log(`React Request`)
+// console.log(req)
+//return await req.json()
 
 export const Session = {
   create(params) {
@@ -114,4 +140,29 @@ export const User = {
       body: JSON.stringify({ user: params }),
     }).then((res) => res.json())
   },
+}
+
+export const Collection = {
+  async index() {
+    const req = await fetch(`${baseURL}/collections`)
+    return await req.json()
+  },
+  create(params) {
+    return fetch(`${baseURL}/collections`, {
+      method: 'POST',
+      credentials: 'include', // need this for cookies
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    }).then((res) => res.json())
+  },
+}
+
+
+export const Tag = {
+  async index(){
+    const req = await fetch(`${baseURL}/tags`)
+    return await req.json()
+  }
 }

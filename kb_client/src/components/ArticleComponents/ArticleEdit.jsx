@@ -3,16 +3,18 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Article } from '../../requests'
 import { User } from '../../requests'
 import TipTap from '../RTE/TipTap'
+import { Tag } from '../../requests'
 
 const ArticleEdit = (props) => {
   const [updateContent, setUpdateContent] = useState({})
+  const [allTags, setAllTags] = useState([])
 
   const navigate = useNavigate()
 
   const { id, params } = props
 
-  console.log(`Logging ArticleEdit id: `, id)
-  console.log(`Logging ArticleEdit params: `, params)
+  // console.log(`Logging ArticleEdit id: `, id)
+  // console.log(`Logging ArticleEdit params: `, params)
 
   /* Get User Info */
 
@@ -22,6 +24,11 @@ const ArticleEdit = (props) => {
 
   useEffect(() => {
     getCurrentUser()
+    const fetchAllTags = async () => {
+      const data = await Tag.index()
+      setAllTags(data)
+    }
+    fetchAllTags()
   }, [])
 
   const getCurrentUser = () => {
@@ -86,7 +93,7 @@ const ArticleEdit = (props) => {
       collection: fd.get('collection'),
       tags: trimTags.toString(),
       // created_at: new Date(),
-      user_id: user.id, 
+      user_id: user.id,
     })
 
     // // setArticle()
@@ -123,13 +130,45 @@ const ArticleEdit = (props) => {
             Tags: <input type="text" name="tags" />
             {/* </form> */}
             <div className="tags-container">
-              {article.tags?.map((t, i) => {
-                /*    return(<p>{t}</p>) */
+              {/* {article.tags?.map((t, i) => {
                 return (
-                  <div key={i} className="tag">
+                  <span key={i} className="tag">
                     <label htmlFor={t}>{t}</label>
                     <input type="checkbox" name={t} value={t} />
-                  </div> 
+                  </span>
+                )
+              })} */}
+              {console.log('Article Tags: ', article.tags)}
+              {console.log('All Tags: ', allTags)}
+              {console.log(article.tags)}
+              {allTags?.map((t, i) => {
+                return (
+                  <span key={i} className="tag">
+                    <label htmlFor={t}>{t.name}</label>                 
+                    {article.tags?.map((a, i) => {
+                      let count = 0
+                      if (a.id === t.id) {
+                        count += 1
+                        return (
+                          <input
+                            type="checkbox"
+                            name={t}
+                            value={t.name}
+                            checked
+                          />
+                        )
+                      } 
+                      // if (count === 1){
+                      //   return (
+                      //     <input
+                      //       type="checkbox"
+                      //       name={t}
+                      //       value={t.name}                            
+                      //     />
+                      //   )
+                      // } 
+                    })}
+                  </span>
                 )
               })}
             </div>

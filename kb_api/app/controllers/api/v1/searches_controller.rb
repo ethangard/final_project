@@ -1,7 +1,7 @@
 class Api::V1::SearchesController < Api::ApplicationController
 
   def query
-    # p search_params
+    p search_params
     # p "yellow"
     # p params
     # p search_params[:query]

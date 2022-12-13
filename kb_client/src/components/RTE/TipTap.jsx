@@ -23,9 +23,26 @@ import { Article } from '../../requests'
 import { useParams } from 'react-router-dom'
 
 const TipTap = (props) => {
-  const articleId = useParams()
 
-  const [test, setTest] = useState('')
+   const editor = useEditor({
+     extensions: [StarterKit],
+     // content: initialContent ? initialContent : '',
+     content: 'Initial Content',
+     onUpdate: ({editor}) => {
+      const html = editor.getHTML();
+      // console.log(html)
+     }
+   })
+
+  //  console.log(`Logging props: `)
+  //  console.log(props)
+
+   
+
+
+  // const articleId = useParams()
+
+  // const [test, setTest] = useState('')
 
   const [initialContent, setInitialContent] = useState('')
 
@@ -36,32 +53,29 @@ const TipTap = (props) => {
 
     const fetchData = async () => {
       const data = await props
-      setInitialContent(data.props) 
+      setInitialContent(data.props)
+      editor.commands.setContent(data.props)
       // console.log(data.props)
     }
     // console.log(`UseEffect Log from TipTap:`)
     // console.log(props)
 
-    // setInitialContent(props)
+    // setInitialContent(props)  
 
     // }
- 
-    //  fetchedData()    
+
+    //  fetchedData()
 
     fetchData()
-  }, []) 
+  }, [editor])
 
-  const editor = useEditor({
-    extensions: [StarterKit],
-    // content: initialContent ? initialContent : '',
-    content: initialContent ? initialContent : '',
-  })
+ 
 
   const MenuBar = ({ editor }) => {
     const fontList = [
       { label: 'Sans-serif', value: 'sans-serif' },
       { label: 'Sans-serif', value: 'sans-serif' },
-    ]  
+    ]
 
     const [font, setFont] = useState('')
 
@@ -216,6 +230,12 @@ const TipTap = (props) => {
   //     </div>
   //   )
   // }
+  // setInitialContent(initialContent)
+  // setTimeout(() => {
+  //   setInitialContent({initialContent})
+  //   // console.log(editor.getHTML())
+  // }, 2000);
+
 
   return (
     <div className="editor-container">
@@ -224,6 +244,7 @@ const TipTap = (props) => {
       {/*   {console.log(<EditorContent/>)} */}
     </div> 
   )
+
 }
 
 export default TipTap
