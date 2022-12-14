@@ -49,6 +49,10 @@ export const Article = {
       credentials: 'include',
     })
   },
+  async get_draft_articles() {
+    const req = await fetch(`${baseURL}/drafts`)
+    return await req.json()
+  },
 }
 
 export const Search = {

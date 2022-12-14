@@ -17,6 +17,8 @@ import TipTap from './components/RTE/TipTap'
 import AdminPanel from './components/AdminComponents/AdminPanel'
 import AdminUser from './components/AdminComponents/AdminUser'
 import CreateUser from './components/AdminComponents/CreateUser'
+import FavouriteComponent from './components/ProfileComponents/FavouriteComponent'
+import DraftComponent from './components/ArticleComponents/DraftComponent'
 
 function App() {
   /* User Sessions */
@@ -79,6 +81,8 @@ function App() {
             <Route exact path="/articles/:id/edit" element={<ArticleEdit />} />
             <Route exact path="/admin" element={<AdminPanel />} />
             <Route exact path="/admin/:id" element={<AdminUser />} />
+            <Route exact path="/favourites" element={<FavouriteComponent />} />
+            <Route exact path="/drafts" element={<DraftComponent />} />
           </Route>
         </Route>
         <Route

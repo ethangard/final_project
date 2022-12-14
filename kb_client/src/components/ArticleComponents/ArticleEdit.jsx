@@ -4,9 +4,11 @@ import { Article } from '../../requests'
 import { User } from '../../requests'
 import TipTap from '../RTE/TipTap'
 import { Tag } from '../../requests'
+import { findByAltText } from '@testing-library/react'
 
 const ArticleEdit = (props) => {
   const [updateContent, setUpdateContent] = useState({})
+  const [published, setPublished] = useState()
   const [allTags, setAllTags] = useState([])
 
   const navigate = useNavigate()
@@ -19,6 +21,11 @@ const ArticleEdit = (props) => {
   /* Get User Info */
 
   // console.log(`Article Edit Props: `, props)
+
+  const updatePublished = (e) => {
+    setPublished(e.target.checked)
+    console.log(published)
+  }
 
   const [user, setUser] = useState(null)
 
@@ -94,7 +101,10 @@ const ArticleEdit = (props) => {
       tags: trimTags.toString(),
       // created_at: new Date(),
       user_id: user.id,
+      published: published
     })
+
+    console.log(`Test Update Published: `, fd.get('published'))
 
     // // setArticle()
     // setArticle({
@@ -144,7 +154,7 @@ const ArticleEdit = (props) => {
               {allTags?.map((t, i) => {
                 return (
                   <span key={i} className="tag">
-                    <label htmlFor={t}>{t.name}</label>                 
+                    <label htmlFor={t}>{t.name}</label>
                     {article.tags?.map((a, i) => {
                       let count = 0
                       if (a.id === t.id) {
@@ -157,20 +167,30 @@ const ArticleEdit = (props) => {
                             checked
                           />
                         )
-                      } 
+                      }
                       // if (count === 1){
                       //   return (
                       //     <input
                       //       type="checkbox"
                       //       name={t}
-                      //       value={t.name}                            
+                      //       value={t.name}
                       //     />
                       //   )
-                      // } 
+                      // }
                     })}
                   </span>
                 )
               })}
+            </div>
+            <div>
+              <label htmlFor="published">Published: </label>
+              <input
+                type="checkbox"
+                name="published"
+                id="published"
+                onChange={(e) => updatePublished(e)}
+                defaultChecked={article.published}
+              />
             </div>
           </div>
         </div>

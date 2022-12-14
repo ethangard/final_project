@@ -1,13 +1,18 @@
 class Api::V1::ArticlesController < Api::ApplicationController
 
+    # before_action :authenticate_user!  
+
   def index
-    articles = Article.order(created_at: :desc)
+    articles = Article.order(created_at: :desc).where(published: true)
     render json: articles
   end
 
   def show
     article = Article.find params[:id]
+    if !article.published
+    else
     render json: article
+    end
   end
 
   def create
@@ -39,10 +44,25 @@ class Api::V1::ArticlesController < Api::ApplicationController
     article.destroy
   end
 
+  def favourite_articles    
+  end
+
+  def get_draft_articles
+    p 'yogurt'
+    p :current_user
+    p 'greylo'
+    temp = current_user
+    puts "temp"
+    p temp
+    articles = Article.where(user_id: 1, published: false)
+    p articles
+    render json: articles
+  end
+
   private
 
   def article_params
-    params.require(:article).permit(:title, :body, :collection, :tags, :user_id)
+    params.require(:article).permit(:title, :body, :collection, :tags, :user_id, :published)
   end
 
 end

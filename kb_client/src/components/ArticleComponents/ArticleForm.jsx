@@ -6,6 +6,7 @@ const ArticleForm = (props) => {
   const [user, setUser] = useState(null)
   const [collections, setCollections] = useState([])
   const [editorData, setEditorData] = useState('')
+  const [published, setPublished] = useState(false)
 
   useEffect(() => {
     getCurrentUser()
@@ -27,6 +28,11 @@ const ArticleForm = (props) => {
       }
     })
   }
+
+   const updatePublished = (e) => {
+     setPublished(e.target.checked)
+     console.log(published)
+   }
 
   const getTipTapData = (props) => {
     setEditorData(props)
@@ -50,7 +56,9 @@ const ArticleForm = (props) => {
       // tags: fd.get('tags'),
       // created_at: new Date(),
       user_id: user.id,
+      published: published
     })
+    console.log(`Test New Published: `, fd.get('published'))
     event.currentTarget.reset()
   }
 
@@ -121,6 +129,14 @@ const ArticleForm = (props) => {
         <br />
         <input type="text" name="tags" id="" />
       </div>
+      <label htmlFor='published'>Published: </label>
+        <input
+            type="checkbox"
+            name="published"
+            id="published" 
+            defaultChecked={false}   
+            onChange={(e)=> updatePublished(e)}       
+          />
       <div>
         <input type="submit" value="Create Article" />
       </div>

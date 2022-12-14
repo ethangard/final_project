@@ -36,8 +36,8 @@ const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
 
   return (
     <nav>
-      <NavLink to="/">Home</NavLink> | {' '}
-      <NavLink to="/articles">Article Index</NavLink> | {' '}
+      <NavLink to="/">Home</NavLink> |{' '}
+      <NavLink to="/articles">Article Index</NavLink> |{' '}
       {currentUser ? (
         <>
           <NavLink to="/articles/new">New Article</NavLink> |{' '}
@@ -46,6 +46,8 @@ const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
           ) : (
             ''
           )}
+          <NavLink to="/favourites">Favourites | </NavLink>
+          <NavLink to="/drafts">Drafts | </NavLink>
           <span>Welcome, {currentUser.first_name}</span>-
           <button onClick={handleSignOut}>Sign Out</button>-
           {/*   {accessLevel === 'admin' ? (<p>You are admin</p>) : ''} */}
@@ -53,7 +55,7 @@ const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
       ) : (
         <>
           <NavLink to="/sign_in"> Sign In </NavLink>|
-         {/*  <NavLink to="/sign_up"> Sign Up</NavLink> */}
+          {/*  <NavLink to="/sign_up"> Sign Up</NavLink> */}
         </>
       )}
     </nav>
