@@ -22,7 +22,7 @@ const DraftComponent = () => {
       ) : (
         <p>You have no drafts</p>
       )}
-      {console.log(drafts)}
+      {/* {console.log(drafts)} */}
 
       {drafts.map((d, i) => {
         return (
