@@ -86,7 +86,7 @@ read_user =
   User.create({
       first_name: "Read",
       last_name: "Read",
-      email: "write@write.com",
+      email: "read@read.com",
       password: PASSWORD,
       permission_level: 'read'
   })

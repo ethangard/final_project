@@ -11,26 +11,42 @@ import ArticlesNew from './components/ArticleComponents/ArticlesNew'
 import SignInPage from './components/SignInComponents/SignInPage'
 import AuthRoutes from './components/SignInComponents/AuthRoutes'
 import ActiveRoutes from './components/SignInComponents/ActiveRoutes'
-import SignUpPage from './components/SignInComponents/SignUpPage'
+import SignUpPage from './components/AdminComponents/CreateUser'
 import SuspendedPage from './components/SuspendedPage'
 import TipTap from './components/RTE/TipTap'
+import AdminPanel from './components/AdminComponents/AdminPanel'
+import AdminUser from './components/AdminComponents/AdminUser'
+import CreateUser from './components/AdminComponents/CreateUser'
 
 function App() {
   /* User Sessions */
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [access, setAccess] = useState('')
 
   const getCurrentUser = () => {
     return User.current().then((user) => {
       if (user?.id) {
         setUser(user)
+        setAccess(user.permission_level)
+        setLoading(false)
       }
+      // console.log(access.permission_level)
     })
   }
 
   useEffect(() => {
-    getCurrentUser()
+    if (!user) {
+      getCurrentUser()
+    } else {
+    }
     // isAdmin(user)
   }, [])
+
+  // useEffect(() => {
+  //   setAccess(user.permission_level)
+  //   console.log(access)
+  // }, [])
 
   const onSignOut = () => {
     setUser(null)
@@ -39,19 +55,21 @@ function App() {
   /* User Sessions end */
   // console.log(user)
 
-  const isActive = () => {
-    const testUser = User.current().then((user) => {
-      if (user?.id) {
-        setUser(user)
-      }
-    })
-    return user
-  }
+  // const isActive = () => {
+  //   const testUser = User.current().then((user) => {
+  //     if (user?.id) {
+  //       setUser(user)
+  //     }
+  //   })
+  //   return user
+  // }
 
   return (
     <>
-      <NavBar currentUser={user} onSignOut={onSignOut} accessLevel={user} />
+      <NavBar currentUser={user} onSignOut={onSignOut} accessLevel={access} />
       <Routes>
+        {console.log(user)}
+
         <Route element={<AuthRoutes isAuthenticated={!!user} />}>
           <Route element={<ActiveRoutes isActive={user} />}>
             <Route path="/" element={<LandingPage />} />
@@ -59,6 +77,8 @@ function App() {
             <Route exact path="/articles/new" element={<ArticlesNew />} />
             <Route exact path="/articles/:id" element={<ArticleShow />} />
             <Route exact path="/articles/:id/edit" element={<ArticleEdit />} />
+            <Route exact path="/admin" element={<AdminPanel />} />
+            <Route exact path="/admin/:id" element={<AdminUser />} />
           </Route>
         </Route>
         <Route
@@ -68,8 +88,8 @@ function App() {
         />
         <Route
           exact
-          path="/sign_up"
-          element={<SignUpPage onSignUp={getCurrentUser} />}
+          path="/admin/users/new"
+          element={<CreateUser onSignUp={getCurrentUser} />}
         />
         <Route exact path="/suspended" element={<SuspendedPage />} />
       </Routes>

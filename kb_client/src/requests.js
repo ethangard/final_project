@@ -61,7 +61,6 @@ export const Search = {
   //     body: JSON.stringify({ params }),
   //   }).then((resp) => resp.json())
   // },
-
   // return (dispatch){
   //   return fetch(`${baseURL}/searches?q=${params}`, {
   //     method: 'POST',
@@ -140,6 +139,34 @@ export const User = {
       body: JSON.stringify({ user: params }),
     }).then((res) => res.json())
   },
+  async index() {
+    const req = await fetch(`${baseURL}/users`)
+    return await req.json()
+  },
+  async show(params) {
+    const req = await fetch(`${baseURL}/users/${params}`)
+    return await req.json()
+  },
+  update(id, params) {
+    return fetch(`${baseURL}/users/${id}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    }).then((res) => res.json())
+  },
+  invite_user(params) {
+    return fetch(`${baseURL}/users/invite_user`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: params }),
+    }).then((res) => res.json())
+  },
 }
 
 export const Collection = {
@@ -159,10 +186,9 @@ export const Collection = {
   },
 }
 
-
 export const Tag = {
-  async index(){
+  async index() {
     const req = await fetch(`${baseURL}/tags`)
     return await req.json()
-  }
+  },
 }

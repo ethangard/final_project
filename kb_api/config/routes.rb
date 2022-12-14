@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       # resources :searches, only: [:index, :create]
       # resource :searches, only: [:query]
       get "/searches", to: 'searches#query'
+      get "admin/users/new", to: 'users#invite_user'
+      post "/users/invite_user", to: 'users#invite_user'
       # post "/searches", to: 'searches#query'
       
       resources :articles, only: [:index, :show, :create, :destroy, :update] do
@@ -15,7 +17,7 @@ Rails.application.routes.draw do
 
       resource :session, only: [:create, :destroy]
 
-      resources :users, only: [:create, :index, :show] do
+      resources :users, only: [:create, :index, :show, :update, :invite_user] do
         get :current, on: :collection
       end
 

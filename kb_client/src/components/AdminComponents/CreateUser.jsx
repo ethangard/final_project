@@ -1,7 +1,7 @@
 import { User } from '../../requests'
 import { useNavigate } from 'react-router-dom'
 
-function SignUpPage(props) {
+function CreateUser(props) {
   const { onSignUp } = props
 
   const navigate = useNavigate()
@@ -16,13 +16,17 @@ function SignUpPage(props) {
       email: formData.get('email'),
       password: formData.get('password'),
       password_confirmation: formData.get('password_confirmation'),
+      permission_level: formData.get('permission_level')
     }
 
-    User.create(params).then((data) => {
+    console.log(params)
+
+    User.invite_user(params).then((data) => {
+      console.log(data)
       // console.log(data[0].id)
       if (data[0].id) {
-        onSignUp()
-        navigate('/')
+        // onSignUp()
+        navigate('/admin')
       }
     })
   }
@@ -57,6 +61,12 @@ function SignUpPage(props) {
             className="sign-in-input"
           />
         </div>
+        <label htmlFor="permission_level">Permission Level</label>
+        <select name="permission_level" id="permission_level">
+          <option value="read">Read Only</option>
+          <option value="write">Read and Write</option>
+          <option value="admin">Admin</option>
+        </select>
         <div className="flex-group">
           <label htmlFor="password">Password</label>
           <input
@@ -81,4 +91,4 @@ function SignUpPage(props) {
   )
 }
 
-export default SignUpPage
+export default CreateUser

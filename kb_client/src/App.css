@@ -84,11 +84,6 @@ body {
   outline: none;
 }
 
-
-
-
-
-
 /* Tag buttons */
 
 .tags-container {
@@ -96,7 +91,7 @@ body {
   width: 100%;
   height: auto;
   padding: 1em;
-  margin: 0.2em
+  margin: 0.2em;
 }
 
 .tag {
@@ -107,5 +102,33 @@ body {
   border-radius: 8px;
 }
 
+/* Admin Panel Styles */
+.user-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.user-item {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  flex-direction: row;
+  width: 100%;
+  border: 1px solid black;
+  padding: 1em;
+  margin: 1em;
+}
+
+.user-item > div {
+  margin-bottom: 0.3em;
+}
 
 @import './styles/ArticleIndexStyles.css'; /* Universal Styles */
