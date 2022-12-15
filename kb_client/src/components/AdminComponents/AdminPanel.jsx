@@ -16,7 +16,7 @@ const AdminPanel = () => {
 
   return (
     <>
-      {console.log(users)}
+{/*       {console.log(users)} */}
       <div>AdminPanel</div>
       <Link to="/admin/users/new"><button>Invite New User</button></Link>
       <div className="user-container">

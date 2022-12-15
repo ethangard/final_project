@@ -1,10 +1,30 @@
 class Api::V1::FavouritesController < Api::ApplicationController
 
   def create
+    p "coffee"
+    p current_user
     article = Article.find(params[:article_id])
-    favourite = Favourite.new(user: current_user, article: article)
-    render json: favourite
+    p article
+    favourite = Favourite.new(user:current_user, article: article)
+    # p favourite
+    favourite.save
+      render json: favourite    
   end
+
+  # def create
+  #       article = Article.find(params[:article_id])
+  #       # if article.user.id == current_user.id
+  #       #     p "article owner cannot make his/her item favourite"
+  #       #     # redirect_to article_path(article.id)
+  #       # else
+  #           favourite = Favourite.new(user:current_user, article: article)
+  #           if favourite.save
+  #               p "Added to favourites"
+  #               render json: favourite
+  #           else
+  #               p favourite.errors.full_messages.join(', ')
+  #           end          
+  #   end
 
   def destroy
     favourite = Favourite.find(params[:id])
@@ -15,6 +35,12 @@ class Api::V1::FavouritesController < Api::ApplicationController
   def index
     favourites = Favourite.all
     render json: favourites
+  end
+
+  private
+
+  def favourite_params
+    params.require(:favourite).permit(:user, :article)
   end
 
 end

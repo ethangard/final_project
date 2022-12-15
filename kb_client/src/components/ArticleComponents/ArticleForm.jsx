@@ -7,6 +7,12 @@ const ArticleForm = (props) => {
   const [collections, setCollections] = useState([])
   const [editorData, setEditorData] = useState('')
   const [published, setPublished] = useState(false)
+  const [body, setBody] = useState('')
+
+  const getEditorBody = (params) => {
+    setBody(params)
+    console.log(params)
+  }
 
   useEffect(() => {
     getCurrentUser()
@@ -29,10 +35,10 @@ const ArticleForm = (props) => {
     })
   }
 
-   const updatePublished = (e) => {
-     setPublished(e.target.checked)
-     console.log(published)
-   }
+  const updatePublished = (e) => {
+    setPublished(e.target.checked)
+    console.log(published)
+  }
 
   const getTipTapData = (props) => {
     setEditorData(props)
@@ -50,13 +56,13 @@ const ArticleForm = (props) => {
 
     props.submitForm({
       title: fd.get('title'),
-      body: fd.get('body'),
+      body: body,
       collection: fd.get('collection'),
       tags: trimTags.toString(),
       // tags: fd.get('tags'),
       // created_at: new Date(),
       user_id: user.id,
-      published: published
+      published: published,
     })
     console.log(`Test New Published: `, fd.get('published'))
     event.currentTarget.reset()
@@ -95,7 +101,7 @@ const ArticleForm = (props) => {
 
     Collection.create({ name: currVal }).then((res) => {
       console.log(res)
-    })
+  })
     setCollections({ collections })
   }
 
@@ -109,7 +115,7 @@ const ArticleForm = (props) => {
       <div>
         <label htmlFor="body">Body</label>
         <br />
-        <TipTap onChange={setEditorData} />
+        <TipTap onChange={setEditorData} data={getEditorBody} />
         <input type="text" name="body" id="" />
       </div>
       <div>
@@ -129,14 +135,14 @@ const ArticleForm = (props) => {
         <br />
         <input type="text" name="tags" id="" />
       </div>
-      <label htmlFor='published'>Published: </label>
-        <input
-            type="checkbox"
-            name="published"
-            id="published" 
-            defaultChecked={false}   
-            onChange={(e)=> updatePublished(e)}       
-          />
+      <label htmlFor="published">Published: </label>
+      <input
+        type="checkbox"
+        name="published"
+        id="published"
+        defaultChecked={false}
+        onChange={(e) => updatePublished(e)}
+      />
       <div>
         <input type="submit" value="Create Article" />
       </div>

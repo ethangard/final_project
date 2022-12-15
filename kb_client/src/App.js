@@ -70,7 +70,7 @@ function App() {
     <>
       <NavBar currentUser={user} onSignOut={onSignOut} accessLevel={access} />
       <Routes>
-        {console.log(user)}
+  {/*       {console.log(user)} */}
 
         <Route element={<AuthRoutes isAuthenticated={!!user} />}>
           <Route element={<ActiveRoutes isActive={user} />}>

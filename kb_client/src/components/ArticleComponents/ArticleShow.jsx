@@ -4,6 +4,7 @@ import { Article } from '../../requests'
 import { useNavigate } from 'react-router-dom'
 import TipTap from '../RTE/TipTap'
 import ArticleEdit from './ArticleEdit'
+import { Navigate } from 'react-router-dom'
 
 const ArticleShow = () => {
   const articleID = useParams()
@@ -54,19 +55,27 @@ const ArticleShow = () => {
 
   // if (!isFetched) return null
 
+  const findFavourite = () => {
+
+  }
+
   if (!editMode) {
     return (
       // <ArticleEdit submitForm={(id, params) => editArticle(id, params)} />
 
       <>
+      {console.log(article)}
         <div>ArticleShow</div>
         <div key={article.id}>
           {/* <Link to="./edit"> */}
           <button onClick={changeEditMode}>Edit</button>
+          {/* <button onClick=()>{'Favourite'}</button> */}
           {/* </Link> */}
 
           <h3>Title: {article.title}</h3>
-          <p>Body: {article.body}</p>
+          <p>
+            Body: <div dangerouslySetInnerHTML={{ __html: article.body }} />
+          </p>
           <p>Collection: {article.collection}</p>
           <div>
             {/* Tags: {console.log(article.tags)} */}
@@ -80,7 +89,7 @@ const ArticleShow = () => {
           </div>
         </div>
       </>
-    )
+    )    
   } else {
     return (
       <ArticleEdit

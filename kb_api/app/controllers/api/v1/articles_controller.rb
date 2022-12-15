@@ -4,6 +4,7 @@ class Api::V1::ArticlesController < Api::ApplicationController
 
   def index
     articles = Article.order(created_at: :desc).where(published: true)
+    # render json: articles, include: [:favourites => {:include => :user}]
     render json: articles
   end
 

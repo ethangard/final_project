@@ -20,6 +20,8 @@ collection_array = ["Collection A", "Collection B", "Collection C", "Collection 
 
 PASSWORD="123"
 
+verify_options = ['pending', 'verified', 'in review']
+
 # def rand_tag(arr)
 #   return_arr = []
 #   rand(2..4).times do
@@ -127,6 +129,20 @@ users = User.all
 tags = Tag.all
 # p tags
 
+# verifies = Verify.create(status: verify_options.sample)
+
+# 10.times do
+#   Verify.create({
+#     status: Faker::ProgrammingLanguage.name,
+#     user_id: users.sample
+#   })
+# end
+
+# verifies = Verify.all
+
+
+
+
 20.times do
 
   created_at = Faker::Date.backward(days: 365 * 5)
@@ -151,8 +167,16 @@ tags = Tag.all
     # tags: 
     collection: collection_array.sample,
     created_at: created_at,
-    user: users.sample
+    user: users.sample,
+    # verify: verifies.sample
+    # verify: temp_verify  
   })
+
+  # temp_verify = Verify.create({
+  #     status: verify_options.sample,
+  #     article: self.a,
+  #     user: users.sample,
+  #   })
 
   # tempId = a.id
 
@@ -165,6 +189,15 @@ tags = Tag.all
     end
      a.tags = tags.shuffle.slice(0, rand(tags.count))
   end
+
+  # if a.valid?
+  #     Verify.create({
+  #     status: verify_options.sample
+  #     article: a,
+  #     user: users.sample,
+  #   })
+  # end
+
 end
 
 articles = Article.all

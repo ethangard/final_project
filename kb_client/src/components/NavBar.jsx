@@ -12,7 +12,7 @@ const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
     })
   }
 
-  console.log(accessLevel)
+/*   console.log(accessLevel) */
 
   // console.log(accessLevel)
 

@@ -18,14 +18,17 @@ const ArticleIndex = () => {
   return (
     <>
       <div>ArticleIndex</div>
-      < SearchBar />
+      <SearchBar />
       {articles.map((a, i) => {
         return (
           <Link to={`./${a.id}`} className="link" key={i}>
             <div className="card">
               <h3>Title: {a.title}</h3>
               <p>
-                <span className="bold">Body:</span> {a.body}
+                <span className="bold">
+                  Body:
+                </span>
+                   <div dangerouslySetInnerHTML={{ __html: a.body }} />
               </p>
               <p>
                 <span className="bold">Collection:</span> {a.collection}

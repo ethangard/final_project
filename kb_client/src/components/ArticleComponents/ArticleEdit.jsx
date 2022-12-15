@@ -10,6 +10,7 @@ const ArticleEdit = (props) => {
   const [updateContent, setUpdateContent] = useState({})
   const [published, setPublished] = useState()
   const [allTags, setAllTags] = useState([])
+  const [body, setBody] = useState('')
 
   const navigate = useNavigate()
 
@@ -96,12 +97,12 @@ const ArticleEdit = (props) => {
     // console.log(`Logging props in Edit form: `, props)
     props.submitForm(articleID.id, {
       title: fd.get('title'),
-      body: fd.get('body'),
+      body: body,
       collection: fd.get('collection'),
       tags: trimTags.toString(),
       // created_at: new Date(),
       user_id: user.id,
-      published: published
+      published: published,
     })
 
     console.log(`Test Update Published: `, fd.get('published'))
@@ -117,10 +118,15 @@ const ArticleEdit = (props) => {
 
     event.currentTarget.reset()
 
-    navigate(`/articles/${articleID.id}`)
+    navigate(`/articles/${articleID.id}`)   
   }
 
   // console.log(article.body)
+
+  const getEditorBody = (params) => {
+    setBody(params)
+    console.log(params)
+  }
 
   return (
     <>
@@ -128,7 +134,7 @@ const ArticleEdit = (props) => {
       <form onSubmit={getDataAndSubmit}>
         <div key={article.id}>
           <input type="text" defaultValue={article.title} name="title" />
-          <TipTap props={article.body} />
+          <TipTap data={getEditorBody} defaultBody={article.body} />
           <input
             type="text"
             defaultValue={article.collection}
@@ -148,9 +154,9 @@ const ArticleEdit = (props) => {
                   </span>
                 )
               })} */}
-              {console.log('Article Tags: ', article.tags)}
+              {/* {console.log('Article Tags: ', article.tags)}
               {console.log('All Tags: ', allTags)}
-              {console.log(article.tags)}
+              {console.log(article.tags)} */}
               {allTags?.map((t, i) => {
                 return (
                   <span key={i} className="tag">
