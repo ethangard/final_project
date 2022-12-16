@@ -1,13 +1,28 @@
-import { Collection, User } from '../../requests'
+import { Collection, User, Tag } from '../../requests'
 import { useEffect, useState } from 'react'
 import TipTap from '../RTE/TipTap'
+import CreatableSelect from 'react-select/creatable'
 
 const ArticleForm = (props) => {
   const [user, setUser] = useState(null)
   const [collections, setCollections] = useState([])
+  const [collection, setCollection] = useState({})
   const [editorData, setEditorData] = useState('')
   const [published, setPublished] = useState(false)
   const [body, setBody] = useState('')
+  const [tags, setTags] = useState([])
+  const [tag, setTag] = useState([])
+
+  // const options = [...collections]
+  const collectionOptions = collections.map((c, i) => {
+    return { value: c.name, label: c.name }
+  })
+
+  const tagOptions = tags.map((t, i) => {
+    return { value: t.name, label: t.name }
+  })
+
+  // console.log('Options', options)
 
   const getEditorBody = (params) => {
     setBody(params)
@@ -22,7 +37,13 @@ const ArticleForm = (props) => {
       setCollections(data)
     }
 
+    const fetchTags = async () => {
+      const data = await Tag.index()
+      setTags(data)
+    }
+
     fetchCollections()
+    fetchTags()
     // console.log(collections)
   }, [])
 
@@ -50,21 +71,22 @@ const ArticleForm = (props) => {
     const fd = new FormData(event.currentTarget)
 
     const formTags = fd.get('tags')
-    const filterTags = formTags.split(',')
-    const trimTags = filterTags.map((s) => s.trim())
+    // const filterTags = formTags.split(',')
+    // const trimTags = filterTags.map((s) => s.trim())
     // console.log(trimTags)
 
     props.submitForm({
       title: fd.get('title'),
       body: body,
-      collection: fd.get('collection'),
-      tags: trimTags.toString(),
+      collection: collection.value,
+      tags: tag,
       // tags: fd.get('tags'),
       // created_at: new Date(),
       user_id: user.id,
       published: published,
     })
-    console.log(`Test New Published: `, fd.get('published'))
+    // console.log(`Test New Published: `, fd.get('published'))
+    console.log(`Post Tags: `, tag)
     event.currentTarget.reset()
   }
 
@@ -101,12 +123,27 @@ const ArticleForm = (props) => {
 
     Collection.create({ name: currVal }).then((res) => {
       console.log(res)
-  })
+    })
     setCollections({ collections })
   }
 
+  console.log(`Current Collection: `, collection)
+
+  function changeCollection(e) {
+    setCollection(e)
+    // console.log(`Changed Collection To:`, collection)
+  }
+
+  function changeTag(e) {
+    setTag(e)
+    // console.log(`Changed Collection To:`, collection)
+  }
+
+  ////////////////////////////////////////////////
+
   return (
     <form onSubmit={getDataAndSubmit}>
+      {console.log(collections)}
       <div>
         <label htmlFor="title">Title</label>
         <br />
@@ -116,10 +153,17 @@ const ArticleForm = (props) => {
         <label htmlFor="body">Body</label>
         <br />
         <TipTap onChange={setEditorData} data={getEditorBody} />
-        <input type="text" name="body" id="" />
+        {/*     <input type="text" name="body" id="" /> */}
       </div>
       <div>
         <label htmlFor="collection">Collection</label>
+        <CreatableSelect
+          isClearable
+          options={collectionOptions}
+          onChange={(e) => changeCollection(e)}
+        />
+        {/* Previous Styles */}
+        {/* <label htmlFor="collection">Collection</label>
         <br />
         <input
           type="text"
@@ -127,13 +171,18 @@ const ArticleForm = (props) => {
           id=""
           onChange={(e) => searchCollections(e)}
           placeholder="Search for existing collections..."
-        />
+        /> */}
         <div onClick={(e) => createCollection(e)} id="collection-output"></div>
       </div>
       <div>
         <label htmlFor="tags">Tags</label>
         <br />
-        <input type="text" name="tags" id="" />
+        {/*  <input type="text" name="tags" id="" /> */}
+      <CreatableSelect
+          isMulti
+          options={tagOptions}
+          onChange={(e) => changeTag(e)}
+        /> 
       </div>
       <label htmlFor="published">Published: </label>
       <input

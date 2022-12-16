@@ -63,6 +63,7 @@ class Api::V1::ArticlesController < Api::ApplicationController
   private
 
   def article_params
+    # params.require(:article).permit(:title, :body, {collection: [:value, :label]}, :tags, :user_id, :published)
     params.require(:article).permit(:title, :body, :collection, :tags, :user_id, :published)
   end
 

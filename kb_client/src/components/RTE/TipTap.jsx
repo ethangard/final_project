@@ -33,8 +33,8 @@ const TipTap = (props) => {
 
 
 
-  console.log(props.defaultBody)
-  console.log(`All props: `, props)
+  // console.log(props.defaultBody)
+  // console.log(`All props: `, props)
 
   //  console.log(`Logging props: `)
   //  console.log(props)
@@ -50,8 +50,8 @@ const TipTap = (props) => {
 
     const fetchData = async () => {
       const data = await props
-      console.log(`Awaiting props: `)
-      console.log(await props)
+      // console.log(`Awaiting props: `)
+      // console.log(await props)
       setInitialContent(await data.defaultBody)
 
       // editor.commands.setContent(data.props)

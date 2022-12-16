@@ -8,6 +8,7 @@ import { Navigate } from 'react-router-dom'
 
 const ArticleShow = () => {
   const articleID = useParams()
+  const [createdAt, setCreatedAt] = useState()
   const [article, setArticle] = useState({})
   const [errors, setErrors] = useState([])
   const [editMode, setEditMode] = useState(false)
@@ -23,8 +24,19 @@ const ArticleShow = () => {
     // setIsFetched(true)
   }, [])
 
+  useEffect(() => {
+    const setCreatedAtInitial = async () => {
+      const data = await new Date(article.created_at).toLocaleString() 
+      setCreatedAt(await data)
+      console.log('Date:', data) 
+    }
+    setCreatedAtInitial()
+  }, [article])
+
   function editArticle(id, params) {
     Article.update(id, params).then((article) => {
+      // console.log(`Edited Article Params: `, params)
+      // console.log(`Edited Article Details: `, article)
       if (article.errors) {
         console.log(`ArticleErrors: ${article.errors}`, article.errors)
         setErrors({ errors: article.errors })
@@ -55,16 +67,21 @@ const ArticleShow = () => {
 
   // if (!isFetched) return null
 
-  const findFavourite = () => {
+  const findFavourite = () => {}
 
-  }
+  // function getDate(params){
+  //   return (new Date(article.created_at))
+  // }
+
+  // console.log(`In function date`, date)
+  // console.log(date)
 
   if (!editMode) {
     return (
       // <ArticleEdit submitForm={(id, params) => editArticle(id, params)} />
 
       <>
-      {console.log(article)}
+        {/*  {console.log(article)} */}
         <div>ArticleShow</div>
         <div key={article.id}>
           {/* <Link to="./edit"> */}
@@ -73,10 +90,12 @@ const ArticleShow = () => {
           {/* </Link> */}
 
           <h3>Title: {article.title}</h3>
-          <p>
+          <div>
             Body: <div dangerouslySetInnerHTML={{ __html: article.body }} />
-          </p>
+          </div>
           <p>Collection: {article.collection}</p>
+          {/*           {console.log(date)} */}
+          {/*        {console.log(new Date(article.created_at))} */}
           <div>
             {/* Tags: {console.log(article.tags)} */}
             {article.tags?.map((t, i) => {
@@ -87,9 +106,10 @@ const ArticleShow = () => {
               )
             })}
           </div>
+          <div>Created at: {createdAt}</div> 
         </div>
       </>
-    )    
+    )
   } else {
     return (
       <ArticleEdit

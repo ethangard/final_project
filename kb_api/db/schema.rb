@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_14_212559) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_15_201337) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "body"
-    t.string "collection"
+    t.text "collection"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
@@ -47,6 +47,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_212559) do
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_favourites_on_article_id"
     t.index ["user_id"], name: "index_favourites_on_user_id"
+  end
+
+  create_table "favourites_links", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_favourites_links_on_article_id"
+    t.index ["user_id"], name: "index_favourites_links_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -89,6 +98,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_212559) do
   add_foreign_key "comments", "users"
   add_foreign_key "favourites", "articles"
   add_foreign_key "favourites", "users"
+  add_foreign_key "favourites_links", "articles"
+  add_foreign_key "favourites_links", "users"
   add_foreign_key "taggings", "articles"
   add_foreign_key "taggings", "tags"
   add_foreign_key "verifies", "articles"

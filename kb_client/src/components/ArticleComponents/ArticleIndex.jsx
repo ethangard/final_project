@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Article } from '../../requests'
 import SearchBar from '../SearchComponents/SearchBar'
+import SortArticles from './SortArticles'
 
 const ArticleIndex = () => {
   const [articles, setArticles] = useState([])
@@ -14,22 +15,27 @@ const ArticleIndex = () => {
 
     fetchData()
   }, [])
-
+  // console.log(articles)
   return (
     <>
       <div>ArticleIndex</div>
       <SearchBar />
+      <SortArticles data={articles}/>
       {articles.map((a, i) => {
+        {
+          /*   console.log(a) */
+        }
         return (
           <Link to={`./${a.id}`} className="link" key={i}>
             <div className="card">
-              <h3>Title: {a.title}</h3>
-              <p>
-                <span className="bold">
-                  Body:
-                </span>
-                   <div dangerouslySetInnerHTML={{ __html: a.body }} />
-              </p>
+              <div>
+                <span className="bold">Title: </span>
+                <p>{a.title}</p>
+              </div>
+              <div>
+                <span className="bold">Body:</span>
+                <div dangerouslySetInnerHTML={{ __html: a.body }} />
+              </div>
               <p>
                 <span className="bold">Collection:</span> {a.collection}
               </p>

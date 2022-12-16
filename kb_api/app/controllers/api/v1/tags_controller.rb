@@ -11,14 +11,11 @@ class Api::V1::TagsController < Api::ApplicationController
 
   def create
     tag = Tag.new tag_params
-
-    p "kool aid"
-    p tag
-
-    if tag.save
-    render json: tag
-    else
-
+    # p "kool aid"
+    # p tag
+      if tag.save
+        render json: tag
+      else
     end
   end
 

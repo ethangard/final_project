@@ -1,16 +1,44 @@
 import { useState, useEffect } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Article } from '../../requests'
-import { User } from '../../requests'
 import TipTap from '../RTE/TipTap'
-import { Tag } from '../../requests'
 import { findByAltText } from '@testing-library/react'
+import { Collection, User, Tag } from '../../requests'
+import CreatableSelect from 'react-select/creatable'
 
 const ArticleEdit = (props) => {
-  const [updateContent, setUpdateContent] = useState({})
-  const [published, setPublished] = useState()
-  const [allTags, setAllTags] = useState([])
+  const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [collections, setCollections] = useState([])
+  const [collection, setCollection] = useState({})
+  const [editorData, setEditorData] = useState('')
+  const [published, setPublished] = useState(false)
   const [body, setBody] = useState('')
+  const [tags, setTags] = useState([])
+  const [tag, setTag] = useState([])
+
+  const collectionOptions = collections.map((c, i) => {
+    return { value: c.name, label: c.name }
+  })
+
+  useEffect(() => {
+    const fetchedCollections = async () => {
+      const data = await Collection.index()
+      setCollections(data)
+    }
+
+    fetchedCollections()
+
+    // const fetchedTitle = async() => {
+    //   const data = await Article.show()
+    // }
+
+    // console.log(`Props Here: `, props)
+  }, [])
+
+  const tagOptions = tags.map((t, i) => {
+    return { value: t.name, label: t.name }
+  })
 
   const navigate = useNavigate()
 
@@ -23,18 +51,24 @@ const ArticleEdit = (props) => {
 
   // console.log(`Article Edit Props: `, props)
 
+  useEffect(() => {
+    const fetchPublished = async () => {
+      const data = await article.published
+      setPublished(data)
+    }
+    fetchPublished()
+  }, [])
+
   const updatePublished = (e) => {
     setPublished(e.target.checked)
-    console.log(published)
+    // console.log(published)
   }
-
-  const [user, setUser] = useState(null)
 
   useEffect(() => {
     getCurrentUser()
     const fetchAllTags = async () => {
       const data = await Tag.index()
-      setAllTags(data)
+      setTags(data)
     }
     fetchAllTags()
   }, [])
@@ -50,7 +84,6 @@ const ArticleEdit = (props) => {
 
   const articleID = useParams()
   const [article, setArticle] = useState({})
-  const [tags, setTags] = useState([])
   // const [isFetched, setIsFetched] = useState(false)
 
   useEffect(() => {
@@ -58,6 +91,8 @@ const ArticleEdit = (props) => {
       const data = await Article.show(articleID.id)
       setArticle(data)
       setTags(data.tags)
+      setTitle(data.title)
+      setCollection(data.collection)
     }
     fetchData()
   }, [])
@@ -87,25 +122,27 @@ const ArticleEdit = (props) => {
     const fd = new FormData(event.currentTarget)
 
     const formTags = fd.get('tags')
-    // console.log(formTags)
-    const filterTags = formTags.split(',')
-    const trimTags = filterTags.map((s) => s.trim())
-    // console.log(trimTags)
+    // const filterTags = formTags.split(',')
+    // const trimTags = filterTags.map((s) => s.trim())
 
     /* Test Data */
     // console.log(dg.get())
     // console.log(`Logging props in Edit form: `, props)
     props.submitForm(articleID.id, {
-      title: fd.get('title'),
+      title: title,
       body: body,
-      collection: fd.get('collection'),
-      tags: trimTags.toString(),
+      collection: collection,
+      tags: tags,
       // created_at: new Date(),
       user_id: user.id,
       published: published,
     })
 
-    console.log(`Test Update Published: `, fd.get('published'))
+    // console.log(`Loggin Form Data: `, fd)
+
+    // console.log(`POST Title: `, title, `POST Body: `, body)
+
+    // console.log(`Test Update Published: `, fd.get('published'))
 
     // // setArticle()
     // setArticle({
@@ -118,7 +155,7 @@ const ArticleEdit = (props) => {
 
     event.currentTarget.reset()
 
-    navigate(`/articles/${articleID.id}`)   
+    navigate(`/articles/${articleID.id}`)
   }
 
   // console.log(article.body)
@@ -128,22 +165,59 @@ const ArticleEdit = (props) => {
     console.log(params)
   }
 
+  function changeCollection(e) {
+    console.log(`Current Collection value: `, e.value)
+    setCollection({ name: e.value, label: e.label })
+    // console.log(`Changed Collection To:`, collection)
+  }
+
+  function changeTag(e) {
+    setTag(e)
+    // console.log(`Changed Collection To:`, collection)
+  }
+
+  const initialTags = article.tags?.map((t) => {
+    return { value: t.name, label: t.name }
+  })
+
+  const updateTitle = (e) => {
+    setTitle(e.currentTarget.value.trim())
+    console.log(e.currentTarget.value.trim())
+  }
+
+  //////////////////////////////////////////
+
   return (
     <>
+      {console.log(article)}
       <div>ArticleEdit</div>
       <form onSubmit={getDataAndSubmit}>
         <div key={article.id}>
-          <input type="text" defaultValue={article.title} name="title" />
-          <TipTap data={getEditorBody} defaultBody={article.body} />
           <input
+            type="text"
+            defaultValue={article.title}
+            name="title"
+            onChange={(e) => updateTitle(e)}
+          />
+          <TipTap data={getEditorBody} defaultBody={article.body} />
+          {/*    <input
             type="text"
             defaultValue={article.collection}
             name="collection"
+          /> */}
+          <label htmlFor="collection">Collection</label>
+          <CreatableSelect
+            isClearable
+            options={collectionOptions}
+            onChange={(e) => changeCollection(e)}
+            defaultValue={collection}
+            name="collection"
           />
+          {console.log(collectionOptions)}
           <div>
             {/* <form onChange={(e) => addTag(e)}> */}
             {/* Tags: <input type="text" name="tag" onChange={(e) => addTag(e)} /> */}
-            Tags: <input type="text" name="tags" />
+            Tags: {/* <input type="text" name="tags" /> */}
             {/* </form> */}
             <div className="tags-container">
               {/* {article.tags?.map((t, i) => {
@@ -157,7 +231,7 @@ const ArticleEdit = (props) => {
               {/* {console.log('Article Tags: ', article.tags)}
               {console.log('All Tags: ', allTags)}
               {console.log(article.tags)} */}
-              {allTags?.map((t, i) => {
+              {/* {tags?.map((t, i) => {
                 return (
                   <span key={i} className="tag">
                     <label htmlFor={t}>{t.name}</label>
@@ -186,7 +260,14 @@ const ArticleEdit = (props) => {
                     })}
                   </span>
                 )
-              })}
+              })} */}
+              {/*   {console.log(`Logging tags: `, article.tags)} */}
+              <CreatableSelect
+                isMulti
+                options={tagOptions}
+                onChange={(e) => changeTag(e)}
+                defaultValue={initialTags?.map((t) => t)}
+              />
             </div>
             <div>
               <label htmlFor="published">Published: </label>
