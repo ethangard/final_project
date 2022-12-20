@@ -17,6 +17,7 @@ const DraftComponent = () => {
   return (
     <>
       <div>DraftComponent</div>
+      {console.log(drafts)}
       {drafts.length > 0 ? (
         <p>You have {drafts.length} drafts currently</p>
       ) : (
@@ -26,7 +27,7 @@ const DraftComponent = () => {
 
       {drafts.map((d, i) => {
         return (
-          <Link to={`/articles/${d.id}`} key={i}>
+          <Link to={`/articles/${d.id}`} key={i} props={{ d }}>
             <div>Title: {d.title}</div> <div>Body: {d.body}</div>{' '}
           </Link>
         )

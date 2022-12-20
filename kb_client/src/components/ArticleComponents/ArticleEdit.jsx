@@ -59,16 +59,18 @@ const ArticleEdit = (props) => {
     fetchPublished()
   }, [])
 
-  const updatePublished = (e) => {
+  const togglePublished = (e) => {
     setPublished(e.target.checked)
+    console.log(e.target.checked)
     // console.log(published)
   }
 
   useEffect(() => {
-    getCurrentUser()
+    // getCurrentUser()
     const fetchAllTags = async () => {
       const data = await Tag.index()
       setTags(data)
+      console.log(`All Tags`, data)
     }
     fetchAllTags()
   }, [])
@@ -90,12 +92,20 @@ const ArticleEdit = (props) => {
     const fetchData = async () => {
       const data = await Article.show(articleID.id)
       setArticle(data)
+      // setBody(data.body)
       setTags(data.tags)
       setTitle(data.title)
-      setCollection(data.collection)
+      setCollection({ value: data.collection, label: data.collection })
+      console.log(`Initial Tags: `, data.tags)
+      setTag(data.tags)
+      /*       { value: 'test', label: 'test' } */
     }
     fetchData()
   }, [])
+
+  // useEffect(() => {
+  //   setBody(article.body)
+  // }, [])
 
   //const test = [1, 2, 3]
 
@@ -120,6 +130,7 @@ const ArticleEdit = (props) => {
   const getDataAndSubmit = (event) => {
     event.preventDefault()
     const fd = new FormData(event.currentTarget)
+    // console.log(`Sent collection: `, collection)
 
     const formTags = fd.get('tags')
     // const filterTags = formTags.split(',')
@@ -128,15 +139,25 @@ const ArticleEdit = (props) => {
     /* Test Data */
     // console.log(dg.get())
     // console.log(`Logging props in Edit form: `, props)
+
+    // const trimmedCollectionName = collection.name.trim()
+
+    const sentTags = tag.map((t, i) => {
+      return t.value
+    })
+
+    console.log(`SentTags:`, sentTags)
+
     props.submitForm(articleID.id, {
       title: title,
       body: body,
-      collection: collection,
-      tags: tags,
-      // created_at: new Date(),
+      collection: collection.name,
+      tags: sentTags,
       user_id: user.id,
       published: published,
     })
+
+    // console.log(`The body sent from React`, body)
 
     // console.log(`Loggin Form Data: `, fd)
 
@@ -166,9 +187,9 @@ const ArticleEdit = (props) => {
   }
 
   function changeCollection(e) {
-    console.log(`Current Collection value: `, e.value)
-    setCollection({ name: e.value, label: e.label })
-    // console.log(`Changed Collection To:`, collection)
+    // console.log(`Current Collection value: `, e.value)
+    setCollection({ name: e.value, label: e.value })
+    console.log(`Changed Collection To:`, e.value)
   }
 
   function changeTag(e) {
@@ -176,7 +197,7 @@ const ArticleEdit = (props) => {
     // console.log(`Changed Collection To:`, collection)
   }
 
-  const initialTags = article.tags?.map((t) => {
+  const initialTags = tags?.map((t) => {
     return { value: t.name, label: t.name }
   })
 
@@ -185,11 +206,25 @@ const ArticleEdit = (props) => {
     console.log(e.currentTarget.value.trim())
   }
 
+  /* Set Default Tags */
+
+  // useEffect(() => {
+  //   console.log(`Initial Tags: `, article.tags)
+  //   setTag(article.tags)
+  // }, [])
+
+  /* Set Initial Editor Body */
+
+  useEffect(() => {
+    setBody(article.body)
+  }, [])
+
   //////////////////////////////////////////
 
   return (
     <>
-      {console.log(article)}
+      {console.log(tag)}
+      {/*    {console.log(article)} */}
       <div>ArticleEdit</div>
       <form onSubmit={getDataAndSubmit}>
         <div key={article.id}>
@@ -213,7 +248,7 @@ const ArticleEdit = (props) => {
             defaultValue={collection}
             name="collection"
           />
-          {console.log(collectionOptions)}
+          {/*         {console.log(collectionOptions)} */}
           <div>
             {/* <form onChange={(e) => addTag(e)}> */}
             {/* Tags: <input type="text" name="tag" onChange={(e) => addTag(e)} /> */}
@@ -266,7 +301,10 @@ const ArticleEdit = (props) => {
                 isMulti
                 options={tagOptions}
                 onChange={(e) => changeTag(e)}
-                defaultValue={initialTags?.map((t) => t)}
+                // defaultValue={initialTags?.map((t) => t)}
+                defaultValue={initialTags.map((t) => t.name)}
+
+                // return { value: t.name, label: t.name }
               />
             </div>
             <div>
@@ -275,7 +313,7 @@ const ArticleEdit = (props) => {
                 type="checkbox"
                 name="published"
                 id="published"
-                onChange={(e) => updatePublished(e)}
+                onChange={(e) => togglePublished(e)}
                 defaultChecked={article.published}
               />
             </div>

@@ -19,17 +19,26 @@ import AdminUser from './components/AdminComponents/AdminUser'
 import CreateUser from './components/AdminComponents/CreateUser'
 import FavouriteComponent from './components/ProfileComponents/FavouriteComponent'
 import DraftComponent from './components/ArticleComponents/DraftComponent'
+import ReportComponent from './components/ReportsComponents/ReportComponent'
+import CollectionIndex from './components/CollectionComponents/CollectionIndex'
+import CollectionShowPage from './components/CollectionComponents/CollectionShowPage'
+import CreatedByMe from './components/CreatedByMeComponents/CreatedByMe'
+
+const currentUserStr = localStorage.getItem('currentUser')
+const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null
 
 function App() {
   /* User Sessions */
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(currentUser)
   const [loading, setLoading] = useState(true)
-  const [access, setAccess] = useState('')
+  // const [isAuthenticated, setIsAuthenticated] = useState(true)
+  const [access, setAccess] = useState(currentUser?.permission_level || '')
 
   const getCurrentUser = () => {
     return User.current().then((user) => {
       if (user?.id) {
         setUser(user)
+        localStorage.setItem('currentUser', JSON.stringify(user))
         setAccess(user.permission_level)
         setLoading(false)
       }
@@ -70,19 +79,35 @@ function App() {
     <>
       <NavBar currentUser={user} onSignOut={onSignOut} accessLevel={access} />
       <Routes>
-  {/*       {console.log(user)} */}
+        {/*       {console.log(user)} */}
 
         <Route element={<AuthRoutes isAuthenticated={!!user} />}>
           <Route element={<ActiveRoutes isActive={user} />}>
             <Route path="/" element={<LandingPage />} />
             <Route exact path="/articles" element={<ArticleIndex />} />
             <Route exact path="/articles/new" element={<ArticlesNew />} />
-            <Route exact path="/articles/:id" element={<ArticleShow />} />
+            <Route
+              exact
+              path="/articles/:id"
+              element={<ArticleShow currentUser={user} />}
+            />
             <Route exact path="/articles/:id/edit" element={<ArticleEdit />} />
             <Route exact path="/admin" element={<AdminPanel />} />
             <Route exact path="/admin/:id" element={<AdminUser />} />
             <Route exact path="/favourites" element={<FavouriteComponent />} />
             <Route exact path="/drafts" element={<DraftComponent />} />
+            <Route exact path="/reports" element={<ReportComponent />} />
+            <Route exact path="/collections" element={<CollectionIndex />} />
+            <Route
+              exact
+              path="/created_by_me"
+              element={<CreatedByMe currentUser={user} />}
+            />
+            <Route
+              exact
+              path="/collections/:id"
+              element={<CollectionShowPage />}
+            />
           </Route>
         </Route>
         <Route

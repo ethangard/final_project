@@ -12,9 +12,19 @@
 Article.destroy_all
 Comment.destroy_all
 User.destroy_all
-# railsTag.destroy_all
+Tag.destroy_all
+Report.destroy_all
+Favourite.destroy_all
 
-collection_array = ["Collection A", "Collection B", "Collection C", "Collection D"]
+# collection_array = ["Collection A", "Collection B", "Collection C", "Collection D", "Collection E"]
+
+["personal development", "creative", "self-improvement", "cooking", "new-you"].each do |c|
+  Collection.create({
+    name: c
+  })
+end
+
+collections = Collection.all
 
 # tags = ["school","work","leisure","sleep", "eat", "pet dogs"]
 
@@ -140,7 +150,27 @@ tags = Tag.all
 
 # verifies = Verify.all
 
+sample_title_names = ["How to paint a picture", "How to bake a cake", "Steps to file an insurance claim", "Where to find the best foraging mushrooms"]
 
+sample_body_descriptions = ["<p>This is my steps to paint a picture</p>
+<ol>
+<li>Get a <strong>canvas</strong></li>
+<li>Pick your <strong>colours</strong></li>
+<li>Wet your brush</li>
+<li>Fix colours</li>
+<li>Put the painbursh on the canvas</li>
+<li>Make the Owl&nbsp;</li>
+</ol>
+<p><em>Congratulations, you are done!</em></p>", "<p>&nbsp;Steps to file an <em>insurance claim</em></p>
+<ol>
+<li>Go on the website for your insurance company</li>
+<li>Choose to either file a claim with their app, or give them a call</li>
+<li>Provide all necessary documents</li>
+<li>Provide a photo of the accident</li>
+<li>Wait for a while to hear back</li>
+<li><strong>Profit?</strong></li>
+</ol>
+<p><em>Congratulations, you are done!</em></p>"]
 
 
 20.times do
@@ -148,8 +178,8 @@ tags = Tag.all
   created_at = Faker::Date.backward(days: 365 * 5)
 
   a = Article.create({
-    title: Faker::Movie.title,
-    body: Faker::Lorem.paragraph_by_chars,
+    title: sample_title_names.sample,
+    body: sample_body_descriptions.sample,
     # tags: rand_tag(tags),
     # tags: Tag.create({
     #   name: "test"
@@ -165,12 +195,20 @@ tags = Tag.all
     #   name: "test_tag"
     # }),
     # tags: 
-    collection: collection_array.sample,
+    collection: collections.sample.name, 
     created_at: created_at,
     user: users.sample,
     # verify: verifies.sample
     # verify: temp_verify  
   })
+
+  if a.valid?
+    r = Report.create({
+      views: rand(1...70),
+      article_id: a.id,
+      user_id: a.user.id
+    })
+  end
 
   # temp_verify = Verify.create({
   #     status: verify_options.sample,
@@ -215,3 +253,4 @@ puts "You've just created #{Article.count} Articles 📚"
 puts "You've just created #{Comment.count} Comments 💬"
 puts "You've just created #{User.count} Users 👽"
 puts "You've just created #{Tag.count} Tags 🏷️"
+puts "You've just created #{Report.count} Report Views 📈"

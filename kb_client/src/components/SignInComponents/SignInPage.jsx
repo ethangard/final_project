@@ -31,7 +31,7 @@ function SignInPage(props) {
         // We can 'push' on history to manipulate the browser
         // and direct our user to any page in our app
         // props.history.push('/questions') <--- not working
-        navigate('/articles')
+        navigate('/')
       }
     })
   }

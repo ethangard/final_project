@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Article } from '../../requests'
+import { Article, User } from '../../requests'
 import { useNavigate } from 'react-router-dom'
 import TipTap from '../RTE/TipTap'
 import ArticleEdit from './ArticleEdit'
 import { Navigate } from 'react-router-dom'
+import { Favourite } from '../../requests'
 
-const ArticleShow = () => {
+const ArticleShow = (props) => {
   const articleID = useParams()
+  const [user, setUser] = useState({})
   const [createdAt, setCreatedAt] = useState()
   const [article, setArticle] = useState({})
   const [errors, setErrors] = useState([])
   const [editMode, setEditMode] = useState(false)
   const navigate = useNavigate()
+  const [favourite, setFavourite] = useState()
   // const [isFetched, setIsFetched] = useState(false)
+
+  // console.log(`Logging props in the Show Page: `, props)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,17 +26,26 @@ const ArticleShow = () => {
       setArticle(data)
     }
     fetchData()
-    // setIsFetched(true)
   }, [])
 
   useEffect(() => {
     const setCreatedAtInitial = async () => {
-      const data = await new Date(article.created_at).toLocaleString() 
+      const data = await new Date(article.created_at).toLocaleString()
       setCreatedAt(await data)
-      console.log('Date:', data) 
+      // console.log('Date:', data)
     }
     setCreatedAtInitial()
   }, [article])
+
+  // Set current user
+  useEffect(() => {
+    setUser(props.currentUser)
+  }, [props])
+
+  useEffect(() => {
+    setFavourite(article.favourites)
+  }, [article])
+  
 
   function editArticle(id, params) {
     Article.update(id, params).then((article) => {
@@ -67,7 +81,10 @@ const ArticleShow = () => {
 
   // if (!isFetched) return null
 
-  const findFavourite = () => {}
+  const findFavourites = () => {
+    // console.log(User.current())
+  }
+  findFavourites()
 
   // function getDate(params){
   //   return (new Date(article.created_at))
@@ -76,27 +93,48 @@ const ArticleShow = () => {
   // console.log(`In function date`, date)
   // console.log(date)
 
+  const archiveArticle = () => {
+    Article.archive_article(articleID.id)
+  }
+
+  const destroyArticle = () => {
+    Article.destroy(articleID.id)
+  }
+
+  const createFavourite = () => {
+    Favourite.create(articleID.id)
+    setFavourite(true)
+  }
+
+  const deleteFavourite = () => {
+    Favourite.destroy(articleID.id, article.favourites[0].id)
+    // console.log(article.favourites[0].id)
+     setFavourite([])
+  }
+
   if (!editMode) {
     return (
-      // <ArticleEdit submitForm={(id, params) => editArticle(id, params)} />
-
-      <>
-        {/*  {console.log(article)} */}
-        <div>ArticleShow</div>
-        <div key={article.id}>
-          {/* <Link to="./edit"> */}
-          <button onClick={changeEditMode}>Edit</button>
-          {/* <button onClick=()>{'Favourite'}</button> */}
-          {/* </Link> */}
-
-          <h3>Title: {article.title}</h3>
+      <div key={article.id}>
+        {console.log(article.favourites)}
+        {/*   {console.log("Article Favourites: ")} */}
+        {/*    {console.log(article.favourites)} */}
+        {/*    {console.log(user.favourites)} */}
+        <button onClick={changeEditMode}>Edit</button>
+        {/* <button onClick=()>{'Favourite'}</button> */}
+        <div>
           <div>
-            Body: <div dangerouslySetInnerHTML={{ __html: article.body }} />
+            <span className="bold">Title: </span> {article.title}
           </div>
-          <p>Collection: {article.collection}</p>
-          {/*           {console.log(date)} */}
-          {/*        {console.log(new Date(article.created_at))} */}
           <div>
+            <span className="bold">Body: </span>
+            <div dangerouslySetInnerHTML={{ __html: article.body }} />
+          </div>
+          <div>
+            <span className="bold">Collection: </span>
+            {article.collection}
+          </div>
+          <div>
+            <span className="bold">Tags: </span>
             {/* Tags: {console.log(article.tags)} */}
             {article.tags?.map((t, i) => {
               return i === article.tags.length - 1 ? (
@@ -106,9 +144,23 @@ const ArticleShow = () => {
               )
             })}
           </div>
-          <div>Created at: {createdAt}</div> 
+          <div>
+            <span className="bold">Created at: </span>
+            {createdAt}
+          </div>
+          <div>
+            {console.log(article.favourites)}
+            {article.favourites?.length > 0 ? (
+              <button onClick={(e) => deleteFavourite(e)}>Un-favourite</button>
+            ) : (
+              <button onClick={(e) => createFavourite(e)}>Favourite</button>
+            )}
+            {console.log(article.favourites)}
+            {/*     <button onClick={(e) => toggleFavourite(e)}>Favourite</button> */}
+            <button onClick={() => destroyArticle()}>Archive</button>
+          </div>
         </div>
-      </>
+      </div>
     )
   } else {
     return (

@@ -10,9 +10,17 @@ Rails.application.routes.draw do
       get "admin/users/new", to: 'users#invite_user'
       post "/users/invite_user", to: 'users#invite_user'
       get "/drafts", to: 'articles#get_draft_articles'
+      get "/collection_articles", to: 'articles#get_collection_articles'
+      get "/created_by_me", to: 'articles#get_user_articles'
       # post "/searches", to: 'searches#query'
+      # get 'reports'
+
+      get 'reports', to: 'reports#all'
+      post '/articles/:id', to: 'articles#archive'
+
       
       resources :articles, only: [:index, :show, :create, :destroy, :update] do
+        resources :reports, only: [:index, :create, :show]
         resources :favourites, only: [:create, :index]
         delete 'favourites/:id', to: 'favourites#destroy', as: :remove_favourite
         resources :comments, only: [:index, :create, :show, :destroy, :update]

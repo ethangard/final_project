@@ -10,9 +10,10 @@ const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
     Session.destroy().then(() => {
       onSignOut()
     })
+    localStorage.clear()
   }
 
-/*   console.log(accessLevel) */
+  /*   console.log(accessLevel) */
 
   // console.log(accessLevel)
 
@@ -36,25 +37,47 @@ const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
 
   return (
     <nav>
-      <NavLink to="/">Home</NavLink> |{' '}
-      <NavLink to="/articles">Article Index</NavLink> |{' '}
+      <NavLink to="/" className="nav-link">
+        Home
+      </NavLink>
+
+      <NavLink to="/articles" className="nav-link">
+        Articles
+      </NavLink>
+
       {currentUser ? (
         <>
-          <NavLink to="/articles/new">New Article</NavLink> |{' '}
+          {/*     <NavLink to="/articles/new" className="nav-link">
+            New Article
+          </NavLink> */}
           {accessLevel === 'admin' ? (
-            <NavLink to="/admin">Admin Panel | </NavLink>
+            <>
+              <NavLink to="/admin" className="nav-link">
+                Admin Panel
+              </NavLink>
+              <NavLink to="/reports" className="nav-link">
+                {' '}
+                Reports
+              </NavLink>
+            </>
           ) : (
             ''
           )}
-          <NavLink to="/favourites">Favourites | </NavLink>
-          <NavLink to="/drafts">Drafts | </NavLink>
-          <span>Welcome, {currentUser.first_name}</span>-
-          <button onClick={handleSignOut}>Sign Out</button>-
+          {/*  <NavLink to="/favourites" className="nav-link">
+            Favourites
+          </NavLink> */}
+          <span className="nav-link">Welcome, {currentUser.first_name}</span>
+
+          <button className="nav-link" onClick={handleSignOut}>
+            Sign Out
+          </button>
           {/*   {accessLevel === 'admin' ? (<p>You are admin</p>) : ''} */}
         </>
       ) : (
         <>
-          <NavLink to="/sign_in"> Sign In </NavLink>|
+          <NavLink to="/sign_in" className="nav-link">
+            Sign In
+          </NavLink>
           {/*  <NavLink to="/sign_up"> Sign Up</NavLink> */}
         </>
       )}

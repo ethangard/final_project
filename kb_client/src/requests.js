@@ -53,6 +53,25 @@ export const Article = {
     const req = await fetch(`${baseURL}/drafts`)
     return await req.json()
   },
+  async get_collection_articles() {
+    const req = await fetch(`${baseURL}/collection_articles`)
+    return await req.json()
+  },
+
+  async get_current_user_articles(id) {
+    const req = await fetch(`${baseURL}/created_by_me/`)
+    return await req.json()
+  },
+  async archive_article(id) {
+    return fetch(`${baseURL}/articles/${id}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(id),
+    }).then((res) => res.json())
+  },
 }
 
 export const Search = {
@@ -188,6 +207,10 @@ export const Collection = {
       body: JSON.stringify(params),
     }).then((res) => res.json())
   },
+  async show(params) {
+    const req = await fetch(`${baseURL}/collections/${params}`)
+    return await req.json()
+  },
 }
 
 export const Tag = {
@@ -195,4 +218,33 @@ export const Tag = {
     const req = await fetch(`${baseURL}/tags`)
     return await req.json()
   },
+}
+
+export const Report = {
+  async index() {
+    const req = await fetch(`${baseURL}/reports`)
+    return await req.json()
+  },
+}
+
+export const Favourite = {
+  // /api/v1/articles/:article_id/favourites(
+  create(id) {
+    return fetch(`${baseURL}/articles/${id}/favourites`, {
+      method: 'POST',
+      credentials: 'include', // need this for cookies
+      headers: {
+        'Content-type': 'application/json',
+      },
+      // body: JSON.stringify(params),
+    }).then((res) => res.json())
+  },
+
+  destroy(id, fav_id) {
+    return fetch(`${baseURL}/articles/${id}/favourites/${fav_id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    })
+  },
+  // index(id)
 }

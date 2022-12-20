@@ -33,7 +33,15 @@ class Api::V1::FavouritesController < Api::ApplicationController
   end
 
   def index
-    favourites = Favourite.all
+    # favourites = Favourite.where(user_id: current_user)
+    # favourites = Favourite.all
+    p "************"
+    # favourites = Favourite.joins(:article).where(:articles => { :user_id => current_user.id })
+    favourites = Favourite.where(user_id: current_user.id)
+    fav_ids = 
+    articles = Article.where
+    p favourites
+    p "************"
     render json: favourites
   end
 
@@ -41,6 +49,10 @@ class Api::V1::FavouritesController < Api::ApplicationController
 
   def favourite_params
     params.require(:favourite).permit(:user, :article)
+  end
+
+  def favourite_ids(arr)
+
   end
 
 end

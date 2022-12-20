@@ -3,62 +3,58 @@ import { Link } from 'react-router-dom'
 import { Article } from '../../requests'
 import SearchBar from '../SearchComponents/SearchBar'
 import SortArticles from './SortArticles'
+import TextTruncate from 'react-text-truncate'
+import ArticleIndexDetails from './ArticleIndexDetails'
 
 const ArticleIndex = () => {
   const [articles, setArticles] = useState([])
+  const [allArticles, setAllArticles] = useState([])
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await Article.index()
       setArticles(data)
+      setAllArticles(data)
     }
 
     fetchData()
   }, [])
+
+  const filteredArticles =
+    query.length <= 2
+      ? articles
+      : articles.filter((a) => {
+          return a.title.toLowerCase().includes(query.toLowerCase())
+        })
+  // =
+  // (query, arr) => {
+  //   if (query.length <= 2) {
+  //   } else {
+  //     const matches = arr.filter((a) =>
+  //       a.title.toLowerCase().includes(query.toLowerCase())
+  //     )
+  //     return matches
+  // //   }
+  // }
+
+  // const reRenderSearch = (params) => {
+  //   // console.log(`Triggering re-render search...`)
+  //   setArticles(params)
+  //   // console.log(articles)
+  // }
+
   // console.log(articles)
+  const ArticleIndexProps = { articles, setQuery }
   return (
-    <>
-      <div>ArticleIndex</div>
-      <SearchBar />
-      <SortArticles data={articles}/>
-      {articles.map((a, i) => {
-        {
-          /*   console.log(a) */
-        }
-        return (
-          <Link to={`./${a.id}`} className="link" key={i}>
-            <div className="card">
-              <div>
-                <span className="bold">Title: </span>
-                <p>{a.title}</p>
-              </div>
-              <div>
-                <span className="bold">Body:</span>
-                <div dangerouslySetInnerHTML={{ __html: a.body }} />
-              </div>
-              <p>
-                <span className="bold">Collection:</span> {a.collection}
-              </p>
-              <p>
-                <span className="bold">Tags: </span>
-                {/* {console.log(a)}
-                {console.log(a.tags)} */}
-                {/*        {console.log(a)} */}
-                {/*                 {console.log((a))}
-                {console.log(a.tags)}  */}
-                {a.tags.map((t, i) => {
-                  return i === a.tags.length - 1 ? (
-                    <span key={i}>{t.name}</span>
-                  ) : (
-                    <span key={i}>{t.name}, </span>
-                  )
-                })}
-              </p>
-            </div>
-          </Link>
-        )
-      })}
-    </>
+    <div className="ArticleIndex-container">
+      {/*  {console.log(articles)} */}
+      <div className="filter-container">
+        <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
+        <SortArticles data={articles} />
+        <ArticleIndexDetails articles={filteredArticles} />
+      </div>
+    </div>
   )
 }
 

@@ -10,7 +10,7 @@ const ArticleForm = (props) => {
   const [editorData, setEditorData] = useState('')
   const [published, setPublished] = useState(false)
   const [body, setBody] = useState('')
-  const [tags, setTags] = useState([])
+  const [getAllTags, setGetAllTags] = useState([])
   const [tag, setTag] = useState([])
 
   // const options = [...collections]
@@ -18,7 +18,7 @@ const ArticleForm = (props) => {
     return { value: c.name, label: c.name }
   })
 
-  const tagOptions = tags.map((t, i) => {
+  const tagOptions = getAllTags.map((t, i) => {
     return { value: t.name, label: t.name }
   })
 
@@ -26,7 +26,7 @@ const ArticleForm = (props) => {
 
   const getEditorBody = (params) => {
     setBody(params)
-    console.log(params)
+    // console.log(params)
   }
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ArticleForm = (props) => {
 
     const fetchTags = async () => {
       const data = await Tag.index()
-      setTags(data)
+      setGetAllTags(data)
     }
 
     fetchCollections()
@@ -56,9 +56,10 @@ const ArticleForm = (props) => {
     })
   }
 
-  const updatePublished = (e) => {
+  const togglePublished = (e) => {
+    // console.log(e.target.checked)
     setPublished(e.target.checked)
-    console.log(published)
+    console.log(e.target.checked)
   }
 
   const getTipTapData = (props) => {
@@ -69,22 +70,53 @@ const ArticleForm = (props) => {
   const getDataAndSubmit = (event) => {
     event.preventDefault()
     const fd = new FormData(event.currentTarget)
+    console.log(`Is this article published? `, published)
 
-    const formTags = fd.get('tags')
+    // const formTags = fd.get('tags')
     // const filterTags = formTags.split(',')
     // const trimTags = filterTags.map((s) => s.trim())
     // console.log(trimTags)
+
+    console.log(`Selected tags are: `, tag)
+
+    // props.submitForm({
+    //   title: fd.get('title'),
+    //   body: body,
+    //   collection: collection.value,
+    //   tags: tag,
+    //   // tags: fd.get('tags'),
+    //   // created_at: new Date(),
+    //   user_id: user.id,
+    //   published: published,
+    // })
+
+    const sentTags = tag.map((t, i) => {
+      return t.value
+    })
 
     props.submitForm({
       title: fd.get('title'),
       body: body,
       collection: collection.value,
-      tags: tag,
+      tags: sentTags,
       // tags: fd.get('tags'),
       // created_at: new Date(),
       user_id: user.id,
       published: published,
     })
+
+    // console.log(
+    //   props.submitForm({
+    //     title: fd.get('title'),
+    //     body: body,
+    //     collection: collection.value,
+    //     tags: tag,
+    //     // tags: fd.get('tags'),
+    //     // created_at: new Date(),
+    //     user_id: user.id,
+    //     published: published,
+    //   })
+    // )
     // console.log(`Test New Published: `, fd.get('published'))
     console.log(`Post Tags: `, tag)
     event.currentTarget.reset()
@@ -127,7 +159,7 @@ const ArticleForm = (props) => {
     setCollections({ collections })
   }
 
-  console.log(`Current Collection: `, collection)
+  // console.log(`Current Collection: `, collection)
 
   function changeCollection(e) {
     setCollection(e)
@@ -143,7 +175,7 @@ const ArticleForm = (props) => {
 
   return (
     <form onSubmit={getDataAndSubmit}>
-      {console.log(collections)}
+      {/*       {console.log(collections)} */}
       <div>
         <label htmlFor="title">Title</label>
         <br />
@@ -178,11 +210,11 @@ const ArticleForm = (props) => {
         <label htmlFor="tags">Tags</label>
         <br />
         {/*  <input type="text" name="tags" id="" /> */}
-      <CreatableSelect
+        <CreatableSelect
           isMulti
           options={tagOptions}
           onChange={(e) => changeTag(e)}
-        /> 
+        />
       </div>
       <label htmlFor="published">Published: </label>
       <input
@@ -190,7 +222,7 @@ const ArticleForm = (props) => {
         name="published"
         id="published"
         defaultChecked={false}
-        onChange={(e) => updatePublished(e)}
+        onChange={(e) => togglePublished(e)}
       />
       <div>
         <input type="submit" value="Create Article" />

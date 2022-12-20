@@ -4,7 +4,12 @@ class ApplicationController < ActionController::Base
         @current_user ||= User.find_by_id session[:user_id]
     end
 
+    def current_user_details
+        User.find_by_id session[:user_id]
+    end
+
     helper_method :current_user
+    helper_method :current_user_details
 
     def user_signed_in?
         current_user.present?
