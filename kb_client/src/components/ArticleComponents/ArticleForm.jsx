@@ -174,25 +174,24 @@ const ArticleForm = (props) => {
   ////////////////////////////////////////////////
 
   return (
-    <form onSubmit={getDataAndSubmit}>
+    <form onSubmit={getDataAndSubmit} className="article-container">
       {/*       {console.log(collections)} */}
-      <div>
+      <div className="form-input">
         <label htmlFor="title">Title</label>
-        <br />
         <input type="text" name="title" id="" />
       </div>
-      <div>
+      <div className="form-input">
         <label htmlFor="body">Body</label>
-        <br />
         <TipTap onChange={setEditorData} data={getEditorBody} />
         {/*     <input type="text" name="body" id="" /> */}
       </div>
-      <div>
+      <div className="form-input">
         <label htmlFor="collection">Collection</label>
         <CreatableSelect
           isClearable
           options={collectionOptions}
           onChange={(e) => changeCollection(e)}
+          className="select-list"
         />
         {/* Previous Styles */}
         {/* <label htmlFor="collection">Collection</label>
@@ -206,24 +205,28 @@ const ArticleForm = (props) => {
         /> */}
         <div onClick={(e) => createCollection(e)} id="collection-output"></div>
       </div>
-      <div>
+      <div className="form-input">
         <label htmlFor="tags">Tags</label>
-        <br />
         {/*  <input type="text" name="tags" id="" /> */}
         <CreatableSelect
           isMulti
           options={tagOptions}
           onChange={(e) => changeTag(e)}
+          className="select-list"
         />
       </div>
-      <label htmlFor="published">Published: </label>
-      <input
-        type="checkbox"
-        name="published"
-        id="published"
-        defaultChecked={false}
-        onChange={(e) => togglePublished(e)}
-      />
+      <div className="form-input">
+        <label htmlFor="published">
+          Published:{' '}
+          <input
+            type="checkbox"
+            name="published"
+            id="published"
+            defaultChecked={false}
+            onChange={(e) => togglePublished(e)}
+          />
+        </label>
+      </div>
       <div>
         <input type="submit" value="Create Article" />
       </div>

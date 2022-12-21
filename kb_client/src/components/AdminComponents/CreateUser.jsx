@@ -16,7 +16,7 @@ function CreateUser(props) {
       email: formData.get('email'),
       password: formData.get('password'),
       password_confirmation: formData.get('password_confirmation'),
-      permission_level: formData.get('permission_level')
+      permission_level: formData.get('permission_level'),
     }
 
     console.log(params)
@@ -32,9 +32,10 @@ function CreateUser(props) {
   }
 
   return (
-    <main className="sign-in">
+    <main className="sign-in-container">
+      <h2>Create New User</h2>
       <form onSubmit={handleSubmit} className="form">
-        <div className="flex-group">
+        <div className="form-input">
           <label htmlFor="first_name">First name</label>
           <input
             type="text"
@@ -43,7 +44,7 @@ function CreateUser(props) {
             className="sign-in-input"
           />
         </div>
-        <div className="flex-group">
+        <div className="form-input">
           <label htmlFor="last_name">Last name</label>
           <input
             type="text"
@@ -52,7 +53,7 @@ function CreateUser(props) {
             className="sign-in-input"
           />
         </div>
-        <div className="flex-group">
+        <div className="form-input">
           <label htmlFor="email">Email</label>
           <input
             type="text"
@@ -61,13 +62,19 @@ function CreateUser(props) {
             className="sign-in-input"
           />
         </div>
-        <label htmlFor="permission_level">Permission Level</label>
-        <select name="permission_level" id="permission_level">
-          <option value="read">Read Only</option>
-          <option value="write">Read and Write</option>
-          <option value="admin">Admin</option>
-        </select>
-        <div className="flex-group">
+        <div className="form-input">
+          <label htmlFor="permission_level">Permission Level</label>
+          <select
+            name="permission_level"
+            id="permission_level"
+            className="permission-container"
+          >
+            <option value="read">Read Only</option>
+            <option value="write">Read and Write</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div className="form-input">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -76,7 +83,7 @@ function CreateUser(props) {
             className="sign-in-input"
           />
         </div>
-        <div className="flex-group">
+        <div className="form-input">
           <label htmlFor="password_confirmation">Confirm Password</label>
           <input
             type="password"

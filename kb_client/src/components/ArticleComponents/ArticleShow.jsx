@@ -45,7 +45,6 @@ const ArticleShow = (props) => {
   useEffect(() => {
     setFavourite(article.favourites)
   }, [article])
-  
 
   function editArticle(id, params) {
     Article.update(id, params).then((article) => {
@@ -110,56 +109,51 @@ const ArticleShow = (props) => {
   const deleteFavourite = () => {
     Favourite.destroy(articleID.id, article.favourites[0].id)
     // console.log(article.favourites[0].id)
-     setFavourite([])
+    setFavourite([])
   }
 
   if (!editMode) {
     return (
-      <div key={article.id}>
+      <div key={article.id} className="article-show-container">
         {console.log(article.favourites)}
-        {/*   {console.log("Article Favourites: ")} */}
-        {/*    {console.log(article.favourites)} */}
-        {/*    {console.log(user.favourites)} */}
-        <button onClick={changeEditMode}>Edit</button>
-        {/* <button onClick=()>{'Favourite'}</button> */}
-        <div>
-          <div>
-            <span className="bold">Title: </span> {article.title}
-          </div>
-          <div>
-            <span className="bold">Body: </span>
-            <div dangerouslySetInnerHTML={{ __html: article.body }} />
-          </div>
-          <div>
-            <span className="bold">Collection: </span>
-            {article.collection}
-          </div>
-          <div>
-            <span className="bold">Tags: </span>
-            {/* Tags: {console.log(article.tags)} */}
-            {article.tags?.map((t, i) => {
-              return i === article.tags.length - 1 ? (
-                <span key={i}>{t.name}</span>
-              ) : (
-                <span key={i}>{t.name}, </span>
-              )
-            })}
-          </div>
-          <div>
-            <span className="bold">Created at: </span>
-            {createdAt}
-          </div>
-          <div>
-            {console.log(article.favourites)}
-            {article.favourites?.length > 0 ? (
-              <button onClick={(e) => deleteFavourite(e)}>Un-favourite</button>
+
+        <div className="show-title">
+          <span className="bold">Title: </span> {article.title}
+        </div>
+        <div className="show-body">
+          <span className="bold">Body: </span>
+          <div dangerouslySetInnerHTML={{ __html: article.body }} />
+        </div>
+        <div className="show-collection">
+          <span className="bold">Collection: </span>
+          {article.collection}
+        </div>
+        <div className="show-tags">
+          <span className="bold">Tags: </span>
+          {/* Tags: {console.log(article.tags)} */}
+          {article.tags?.map((t, i) => {
+            return i === article.tags.length - 1 ? (
+              <span key={i}>{t.name}</span>
             ) : (
-              <button onClick={(e) => createFavourite(e)}>Favourite</button>
-            )}
-            {console.log(article.favourites)}
-            {/*     <button onClick={(e) => toggleFavourite(e)}>Favourite</button> */}
-            <button onClick={() => destroyArticle()}>Archive</button>
-          </div>
+              <span key={i}>{t.name}, </span>
+            )
+          })}
+        </div>
+        <div className="show-createdAt">
+          <span className="bold">Created at: </span>
+          {createdAt}
+        </div>
+        <div>
+          {console.log(article.favourites)}
+          {article.favourites?.length > 0 ? (
+            <button onClick={(e) => deleteFavourite(e)}>Un-favourite</button>
+          ) : (
+            <button onClick={(e) => createFavourite(e)}>Favourite</button>
+          )}
+          {console.log(article.favourites)}
+          {/*     <button onClick={(e) => toggleFavourite(e)}>Favourite</button> */}
+          <button onClick={() => destroyArticle()}>Archive</button>
+          <button onClick={changeEditMode}>Edit</button>
         </div>
       </div>
     )

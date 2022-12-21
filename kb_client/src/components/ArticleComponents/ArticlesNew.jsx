@@ -28,11 +28,9 @@ const ArticlesNew = (props) => {
     })
   }
 
-  
-
   return (
     <>
-      <div>ArticlesNew</div>
+  {/*     <div>ArticlesNew</div> */}
       <ArticleForm submitForm={(params) => createNewArticle(params)} />
     </>
   )

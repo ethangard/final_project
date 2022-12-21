@@ -17,9 +17,9 @@ const AdminPanel = () => {
   return (
     <>
 {/*       {console.log(users)} */}
-      <div>AdminPanel</div>
-      <Link to="/admin/users/new"><button>Invite New User</button></Link>
+{/*       <div>AdminPanel</div> */}
       <div className="user-container">
+      <Link to="/admin/users/new"><button className='create-new-user-btn'>Invite New User</button></Link>
         {users.map((u, i) => {
           return (
             <Link to={`./${u.id}`} className="user-item" key={i} props={u}>

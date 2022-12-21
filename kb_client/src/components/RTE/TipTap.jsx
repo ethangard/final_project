@@ -129,7 +129,7 @@ const TipTap = (props) => {
       >
         paragraph
       </button> */}
-        <select
+     {/*    <select
           name="fontFamily"
           placeholder="Select font..."
           value={
@@ -142,7 +142,7 @@ const TipTap = (props) => {
             setFont(fontSel)
             editor.chain().focus().setFontFamily(fontSel).run()
           }}
-        />
+        /> */}
         {/* <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}

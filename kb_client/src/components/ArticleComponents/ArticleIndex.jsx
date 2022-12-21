@@ -110,8 +110,13 @@ const ArticleIndex = () => {
     <div className="ArticleIndex-container">
       {/*  {console.log(articles)} */}
       <div className="filter-container">
-        <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
-        <SortArticles value={sort} onChange={(e) => setSort(e.target.value)} />
+        <div className="filter-container-options">
+          <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
+          <SortArticles
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          />
+        </div>
         {/*  <SortArticles data={articles} onChange={(e)=> setSort(e.target.value)} /> */}
         <ArticleIndexDetails
           articles={filteredArticles}

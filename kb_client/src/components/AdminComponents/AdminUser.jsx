@@ -94,50 +94,54 @@ const AdminUser = (props) => {
 
   return (
     <>
-      <div>AdminUserPanel</div>
-      <form onSubmit={updateUserInfo}>
-        <div className="input-group">
+      <form onSubmit={updateUserInfo} className="create-user-container">
+        <div className="form-input">
           <label htmlFor="first_name">First Name: </label>
           <input type="text" defaultValue={user.first_name} name="first_name" />
         </div>
-        <div className="input-group">
+        <div className="form-input">
           <label htmlFor="last_name">Last Name: </label>
           <input type="text" defaultValue={user.last_name} name="last_name" />
         </div>
-        <div className="input-group">
+        <div className="form-input">
           <label htmlFor="email">Email: </label>
           <input type="text" defaultValue={user.email} name="email" />
         </div>
-        <div className="input-group">
-          <div>User Since: {user.created_at}</div>
+        <div className="form-input">
+          <label>User Since: {user.created_at}</label>
         </div>
-        <div className="input-group">
+        <div className="form-input">
           <label htmlFor="permission_level">
-            Current Permission Level: <span>{user.permission_level}</span>
+            Current Permission Level:{' '}
+            <span className="bold">{user.permission_level}</span>
           </label>
 
           <select
             name="permission_level"
             id="permission_level"
             onChange={updatePermissionLevel}
+            className="permission-container"
           >
             <option value="read">Read Only</option>
             <option value="write">Read and Write</option>
             <option value="admin">Admin</option>
           </select>
         </div>
-        <div className="input-group">
-          <label htmlFor="user_active">Profile Active: </label>
+        <div className="form-input">
+          <label htmlFor="user_active">
+            Profile Active:{' '}
+            <input
+              type="checkbox"
+              name="user_active"
+              id="user_active"
+              defaultChecked={user.active}
+            />
+          </label>
           {/* <input
             type="text"
             defaultValue={user.active ? 'Active' : 'Inactive'}
           /> */}
-          <input
-            type="checkbox"
-            name="user_active"
-            id="user_active"
-            defaultChecked={user.active}
-          />
+
           {console.log(user.active)}
         </div>
         <input type="submit" value="Update Profile" />

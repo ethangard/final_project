@@ -97,10 +97,11 @@ const ArticleEdit = (props) => {
       setTitle(data.title)
       setCollection({ value: data.collection, label: data.collection })
       console.log(`Initial Tags: `, await data.tags)
-      setTag(await data.tags.map((t) => {
-         return { value: t.name, label: t.name }
-       }))
-
+      setTag(
+        await data.tags.map((t) => {
+          return { value: t.name, label: t.name }
+        })
+      )
 
       /*       { value: 'test', label: 'test' } */
     }
@@ -226,24 +227,31 @@ const ArticleEdit = (props) => {
   //////////////////////////////////////////
 
   return (
-    <>
-      {console.log(tag)}
-      {/*    {console.log(article)} */}
-      <div>ArticleEdit</div>
-      <form onSubmit={getDataAndSubmit}>
-        <div key={article.id}>
+    <form
+    onSubmit={getDataAndSubmit}
+    className="article-container"
+    key={article.id}
+    >
+        {/* <div className="article-container" key={article.id}> */}
+        <div className="form-input">
+          <label htmlFor="title">Title</label>
           <input
             type="text"
             defaultValue={article.title}
             name="title"
             onChange={(e) => updateTitle(e)}
           />
-          <TipTap data={getEditorBody} defaultBody={article.body} />
-          {/*    <input
+        </div>
+        <div className="form-input">
+          <label htmlFor="body">Body</label>
+          <TipTap data={getEditorBody} defaultBody={article.body} name="body" />
+        </div>
+        {/*    <input
             type="text"
             defaultValue={article.collection}
             name="collection"
           /> */}
+        <div className="form-input">
           <label htmlFor="collection">Collection</label>
           <CreatableSelect
             isClearable
@@ -251,15 +259,18 @@ const ArticleEdit = (props) => {
             onChange={(e) => changeCollection(e)}
             defaultValue={collection}
             name="collection"
+            className='select-list'
           />
-          {/*         {console.log(collectionOptions)} */}
-          <div>
-            {/* <form onChange={(e) => addTag(e)}> */}
-            {/* Tags: <input type="text" name="tag" onChange={(e) => addTag(e)} /> */}
-            Tags: {/* <input type="text" name="tags" /> */}
-            {/* </form> */}
-            <div className="tags-container">
-              {/* {article.tags?.map((t, i) => {
+        </div>
+        {/*         {console.log(collectionOptions)} */}
+        <div className="form-input">
+          {/* <form onChange={(e) => addTag(e)}> */}
+          {/* Tags: <input type="text" name="tag" onChange={(e) => addTag(e)} /> */}
+          {/* <input type="text" name="tags" /> */}
+          {/* </form> */}
+          <div className="form-input">
+            <label htmlFor="tags">Tags</label>
+            {/* {article.tags?.map((t, i) => {
                 return (
                   <span key={i} className="tag">
                     <label htmlFor={t}>{t}</label>
@@ -267,10 +278,10 @@ const ArticleEdit = (props) => {
                   </span>
                 )
               })} */}
-              {/* {console.log('Article Tags: ', article.tags)}
+            {/* {console.log('Article Tags: ', article.tags)}
               {console.log('All Tags: ', allTags)}
               {console.log(article.tags)} */}
-              {/* {tags?.map((t, i) => {
+            {/* {tags?.map((t, i) => {
                 return (
                   <span key={i} className="tag">
                     <label htmlFor={t}>{t.name}</label>
@@ -300,35 +311,35 @@ const ArticleEdit = (props) => {
                   </span>
                 )
               })} */}
-              {/*   {console.log(`Logging tags: `, article.tags)} */}
-             {console.log(tag)}
-              <CreatableSelect
-                isMulti
-                options={tagOptions}
-                onChange={(e) => changeTag(e)}
-                // defaultValue={initialTags?.map((t) => t)}
-                defaultValue={tag?.map((t) => t)}
-
-                // return { value: t.name, label: t.name }
-              />
-            </div>
-            <div>
-              <label htmlFor="published">Published: </label>
-              <input
-                type="checkbox"
-                name="published"
-                id="published"
-                onChange={(e) => togglePublished(e)}
-                defaultChecked={article.published}
-              />
-            </div>
+            {/*   {console.log(`Logging tags: `, article.tags)} */}
+            {/*    {console.log(tag)} */}
+            <CreatableSelect
+              isMulti
+              options={tagOptions}
+              onChange={(e) => changeTag(e)}
+              // defaultValue={initialTags?.map((t) => t)}
+              defaultValue={tag?.map((t) => t)}
+              name="tags"
+              className='select-list'
+              // return { value: t.name, label: t.name }
+            />
           </div>
+        </div>
+        <div className="form-input">
+          <label htmlFor="published">Published: </label>
+          <input
+            type="checkbox"
+            name="published"
+            id="published"
+            onChange={(e) => togglePublished(e)}
+            defaultChecked={article.published}
+          />
         </div>
         <div>
           <input type="submit" value="Update Article" />
         </div>
       </form>
-    </>
+/*     </div> */
   )
 }
 
