@@ -223,7 +223,7 @@ nav {
 .nav-item-sidebar {
   box-sizing: border-box;
   padding: 0.6em;
-  margin: 0.7em 0em;
+  margin: 0.7em 0.5em;
   border-radius: 5px;
   width: 100%;
   box-shadow: 1px 2px 4px #717171;
@@ -236,7 +236,7 @@ nav {
 /* Article Index Styles */
 .ArticleIndex-container {
   grid-area: ArticleIndex;
-  padding: 1em;
+  padding: 2em;
   height: 200vh;
   overflow: scroll;
 }
@@ -491,6 +491,28 @@ input[type='submit'] {
   font-size: 1.5em;
   font-weight: 550;
   padding: 2em;
+}
+
+.collection-index-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 2em;
+  margin: 1em;
+}
+
+.collection-title {
+  font-weight: 570;
+  font-size: 1.2em;
+}
+
+.collection-container {
+  padding: 1em;
+  margin: 0.5em;
+  border-radius: 7px;
+  box-shadow: 2px 2px 1px rgb(193 184 184);
+  border: 1px solid rgb(154, 154, 154);
 }
 
 @import './styles/ArticleIndexStyles.css'; /* Universal Styles */

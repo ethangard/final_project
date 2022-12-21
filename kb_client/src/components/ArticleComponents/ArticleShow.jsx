@@ -152,8 +152,15 @@ const ArticleShow = (props) => {
           )}
           {console.log(article.favourites)}
           {/*     <button onClick={(e) => toggleFavourite(e)}>Favourite</button> */}
-          <button onClick={() => destroyArticle()}>Archive</button>
-          <button onClick={changeEditMode}>Edit</button>
+          {user.permission_level === 'admin' ||
+          user.permission_level === 'write' ? (
+            <>
+              <button onClick={() => destroyArticle()}>Archive</button>
+              <button onClick={changeEditMode}>Edit</button>
+            </>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     )

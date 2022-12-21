@@ -13,14 +13,20 @@ const CollectionIndex = () => {
     fetchData()
   }, [])
 
-
-
   return (
-    <div>
+    <div className="collection-index-container">
+      <h2>Collections List</h2>
       {collections.map((c, i) => {
         return (
-          <Link to={`./${c.id}`} key={i} props={c.id}>
-            <div>{c.name}</div>
+          <Link
+            to={`./${c.id}`}
+            key={i}
+            props={c.id}
+            className="collection-container"
+          >
+            <div className="collection-title">
+              #{i + 1} {c.name}
+            </div>
           </Link>
         )
       })}
