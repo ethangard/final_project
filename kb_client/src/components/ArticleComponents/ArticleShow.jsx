@@ -19,12 +19,12 @@ const ArticleShow = (props) => {
   // const [isFetched, setIsFetched] = useState(false)
 
   // console.log(`Logging props in the Show Page: `, props)
+  const fetchData = async () => {
+    const data = await Article.show(articleID.id)
+    setArticle(data)
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await Article.show(articleID.id)
-      setArticle(data)
-    }
     fetchData()
   }, [])
 
@@ -67,7 +67,8 @@ const ArticleShow = (props) => {
 
   const updateEditModeRemote = () => {
     setEditMode(false)
-    reRenderPage()
+    fetchData()
+    // reRenderPage()
   }
 
   const reRenderPage = () => {

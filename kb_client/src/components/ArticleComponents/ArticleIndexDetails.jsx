@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import Highlighter from 'react-highlight-words'
 import { Link } from 'react-router-dom'
 
-const ArticleIndexDetails = (props) => {
+const ArticleIndexDetails = ({ articles, sorts, value }) => {
   const [indexArticles, setIndexArticles] = useState([])
 
-  console.log('Logging props', props)
+  console.log('Logging articles props', articles)
+  console.log(sorts)
 
   useEffect(() => {
-    setIndexArticles(props.articles)
-  }, [props])
+    setIndexArticles(articles)
+  }, [articles])
+
+  // console.log(
+  //   `Logging article titles`,
+  //   articles.map((a) => a.title)
+  // )
+  
+    // const artTitles = articles.map((a) => a.title)
+
 
   /*   console.log(indexArticles) */
 
@@ -16,7 +26,14 @@ const ArticleIndexDetails = (props) => {
     return (
       <Link to={`/articles/${a.id}`} className="link card" key={i}>
         <div className="index-item-title">
-          <span className="bold">Title: </span> {a.title}
+          {/* <span className="bold">Title: </span> {a.title} */}
+          <span className="bold">Title: </span> 
+          <Highlighter
+            highlightClassName="highlight"
+            searchWords={[value]}
+            autoEscape={true}
+            textToHighlight={a.title}
+          />
         </div>
         <div className="index-item-title">
           <span className="bold">Body:</span>

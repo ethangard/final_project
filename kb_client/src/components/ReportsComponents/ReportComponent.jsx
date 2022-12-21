@@ -23,22 +23,20 @@ const ReportComponent = () => {
     fetchedReports()
   }, [])
 
-  // useEffect(() => {
-
-  //   setArticleViews({
-  //     labels: reports.map((a) => a.id),
-  //     datasets: [
-  //       {
-  //         label: 'Articles Views ',
-  //         data: reports.map((a) => a.views),
-  //       },
-  //     ],
-  //   })
-
-  // }, [reports])
+  useEffect(() => {
+    setArticleViews({
+      labels: reports.map((a) => a.id),
+      datasets: [
+        {
+          label: 'Article Views ',
+          data: reports.map((a) => a.views),
+        },
+      ],
+    })
+  }, [reports])
 
   const [reportData, setReportData] = useState({
-    labels: [10,20,30,40].map((data) => data),
+    labels: [10, 20, 30, 40].map((data) => data),
     datasets: [
       {
         label: 'Users Gained',
@@ -63,9 +61,9 @@ const ReportComponent = () => {
 
   return (
     <div>
-{/*       <div>ReportComponent</div> */}
+      {/*       <div>ReportComponent</div> */}
       {/*   {console.log(reports)} */}
-      <BarChart chartData={reportData} />
+      {/*     <BarChart chartData={reportData} /> */}
       <div className="chart">
         <BarChart chartData={articleViews} />
       </div>

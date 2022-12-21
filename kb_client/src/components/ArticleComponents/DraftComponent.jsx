@@ -27,9 +27,17 @@ const DraftComponent = () => {
 
       {drafts.map((d, i) => {
         return (
-          <Link to={`/articles/${d.id}`} key={i} props={{ d }}>
-            <div>Title: {d.title}</div> <div>Body: {d.body}</div>{' '}
-          </Link>
+          <>
+            <hr />
+            <Link to={`/articles/${d.id}`} key={i} props={{ d }}>
+              <div>Title: {d.title}</div>
+              <div>
+                Body:
+                <div dangerouslySetInnerHTML={{ __html: d.body }} />
+              </div>
+            </Link>
+            <hr />
+          </>
         )
       })}
     </>

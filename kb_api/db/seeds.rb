@@ -150,7 +150,38 @@ tags = Tag.all
 
 # verifies = Verify.all
 
-sample_title_names = ["How to paint a picture", "How to bake a cake", "Steps to file an insurance claim", "Where to find the best foraging mushrooms"]
+sample_titles_and_body = [
+  {
+   title: "How to paint a picture",
+   body: "<p>This is my steps to paint a picture</p>
+          <ol>
+          <li>Get a <strong>canvas</strong></li>
+          <li>Pick your <strong>colours</strong></li>
+          <li>Wet your brush</li>
+          <li>Fix colours</li>
+          <li>Put the painbursh on the canvas</li>
+          <li>Make the Owl&nbsp;</li>
+          </ol>
+          <p><em>Congratulations, you are done!</em></p>"
+  },
+  {
+   title: "How to bake a cake",
+   body: "<p>How to bake a cake 🍰</p>
+          <ol>
+          <li>Get your ingredients together</li>
+          <li>Sift your sugar and flour</li>
+          <li>Preheat your oven 350 F</li>
+          <li>Beat your eggs and milk&nbsp;</li>
+          <li>Combine your wet and dry ingredients</li>
+          <li>Pour it into a cake pan, and bake for 20-25 minutes</li>
+          </ol>
+          <p>Congratulations, you just made a cake!</p>"
+  }
+  ]
+
+
+
+sample_titles_and_body = ["How to paint a picture", "How to bake a cake", "Steps to file an insurance claim", "Where to find foragable mushrooms", "Life Skills"]
 
 sample_body_descriptions = ["<p>This is my steps to paint a picture</p>
 <ol>

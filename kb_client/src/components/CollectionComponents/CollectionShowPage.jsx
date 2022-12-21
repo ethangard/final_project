@@ -31,15 +31,18 @@ const CollectionShowPage = () => {
 
   return (
     <>
-      <div>CollectionShow</div>
-      <div>Collection Name: {collection.name}</div>
+      <hr />
+      <h3>Collection Name: {collection.name}</h3>
+      <hr />
       {console.log(collectionArticles)}
       {collectionArticles.map((c, i) => {
         return (
           <Link key={i} to={`/articles/${c.id}`}>
-            <div>Article #{i}</div>
+            <div>Article #{c.id}</div>
             <div>Article Title: {c.title}</div>
-            <div>Article Body: {c.body}</div>
+            Article Body:
+            <div dangerouslySetInnerHTML={{ __html: c.body }} />
+            <hr />
           </Link>
         )
       })}

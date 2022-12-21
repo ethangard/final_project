@@ -66,7 +66,7 @@ const ArticleEdit = (props) => {
   }
 
   useEffect(() => {
-    // getCurrentUser()
+    getCurrentUser()
     const fetchAllTags = async () => {
       const data = await Tag.index()
       setTags(data)
@@ -93,11 +93,15 @@ const ArticleEdit = (props) => {
       const data = await Article.show(articleID.id)
       setArticle(data)
       // setBody(data.body)
-      setTags(data.tags)
+      // setTags(data.tags)
       setTitle(data.title)
       setCollection({ value: data.collection, label: data.collection })
-      console.log(`Initial Tags: `, data.tags)
-      setTag(data.tags)
+      console.log(`Initial Tags: `, await data.tags)
+      setTag(await data.tags.map((t) => {
+         return { value: t.name, label: t.name }
+       }))
+
+
       /*       { value: 'test', label: 'test' } */
     }
     fetchData()
@@ -197,9 +201,9 @@ const ArticleEdit = (props) => {
     // console.log(`Changed Collection To:`, collection)
   }
 
-  const initialTags = tags?.map((t) => {
-    return { value: t.name, label: t.name }
-  })
+  // const initialTags = tags?.map((t) => {
+  //   return { value: t.name, label: t.name }
+  // })
 
   const updateTitle = (e) => {
     setTitle(e.currentTarget.value.trim())
@@ -297,12 +301,13 @@ const ArticleEdit = (props) => {
                 )
               })} */}
               {/*   {console.log(`Logging tags: `, article.tags)} */}
+             {console.log(tag)}
               <CreatableSelect
                 isMulti
                 options={tagOptions}
                 onChange={(e) => changeTag(e)}
                 // defaultValue={initialTags?.map((t) => t)}
-                defaultValue={initialTags.map((t) => t.name)}
+                defaultValue={tag?.map((t) => t)}
 
                 // return { value: t.name, label: t.name }
               />

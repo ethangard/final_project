@@ -7,16 +7,30 @@ class Api::V1::ArticlesController < Api::ApplicationController
     # render json: articles, include: [:favourites => {:include => :user}]
     render json: articles
   end
-
+  
   def show
     article = Article.find params[:id]
+    p "current user id"
+    p current_user
+    # if (current_user.id == article.user_id || !article.published )
     if !article.published 
+      render json: article
     else
       p "earl grey"
        view_page(params[:id])
     render json: article
     end
   end
+
+  # def show
+  #   article = Article.find params[:id]
+  #   if !article.published 
+  #   else
+  #     p "earl grey"
+  #      view_page(params[:id])
+  #   render json: article
+  #   end
+  # end
 
   def create
 
@@ -202,7 +216,7 @@ class Api::V1::ArticlesController < Api::ApplicationController
   end
 
   def get_collection_articles
-    articles = Article.where(collection: 'collection a')
+    articles = Article.where(collection: 'personal development')
     p "returned articles"
     p articles
     render json: articles

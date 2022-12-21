@@ -10,6 +10,7 @@ const ArticleIndex = () => {
   const [articles, setArticles] = useState([])
   const [allArticles, setAllArticles] = useState([])
   const [query, setQuery] = useState('')
+  const [sort, setSort] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +28,64 @@ const ArticleIndex = () => {
       : articles.filter((a) => {
           return a.title.toLowerCase().includes(query.toLowerCase())
         })
+
+  const sortedArticles = () => {
+    // console.log(`Params: `, params)
+    console.log(`Current Sort: `, sort)
+    if (sort === 'a-z') {
+      return articles.sort((a, b) => {
+        const nameA = a.title.toLowerCase()
+        const nameB = b.title.toLowerCase()
+        if (nameA < nameB) {
+          return -1
+        }
+        if (nameA > nameB) {
+          return 1
+        }
+        return 0
+      })
+    }
+    if (sort === 'z-a') {
+      return articles.sort((a, b) => {
+        const nameA = a.title.toLowerCase()
+        const nameB = b.title.toLowerCase()
+        if (nameA < nameB) {
+          return 1
+        }
+        if (nameA > nameB) {
+          return -1
+        }
+        return 0
+      })
+    }
+    if (sort === 'first') {
+      return articles.sort((a, b) => {
+        const createdA = a.created_at
+        const createdB = b.created_at
+        if (createdA < createdB) {
+          return 1
+        }
+        if (createdA > createdB) {
+          return -1
+        }
+        return 0
+      })
+    }
+    if (sort === 'last') {
+      return articles.sort((a, b) => {
+        const createdA = a.created_at
+        const createdB = b.created_at
+        if (createdA < createdB) {
+          return -1
+        }
+        if (createdA > createdB) {
+          return 1
+        }
+        return 0
+      })
+    }
+  }
+
   // =
   // (query, arr) => {
   //   if (query.length <= 2) {
@@ -45,14 +104,21 @@ const ArticleIndex = () => {
   // }
 
   // console.log(articles)
-  const ArticleIndexProps = { articles, setQuery }
+  // const ArticleIndexProps = { articles, setQuery }
+
   return (
     <div className="ArticleIndex-container">
       {/*  {console.log(articles)} */}
       <div className="filter-container">
         <SearchBar value={query} onChange={(e) => setQuery(e.target.value)} />
-        <SortArticles data={articles} />
-        <ArticleIndexDetails articles={filteredArticles} />
+        <SortArticles value={sort} onChange={(e) => setSort(e.target.value)} />
+        {/*  <SortArticles data={articles} onChange={(e)=> setSort(e.target.value)} /> */}
+        <ArticleIndexDetails
+          articles={filteredArticles}
+          sorts={sortedArticles(sort)}
+          value={query}
+        />
+        {/*   <ArticleIndexDetails articles={filteredArticles} sorts={sortedArticles} /> */}
       </div>
     </div>
   )
