@@ -90,8 +90,9 @@ class Api::V1::ArticlesController < Api::ApplicationController
 
     p article_params[:title]
 
-
-     article.save
+    p "article about to be saved"
+    p article
+    article.save
 
       r = Report.create({
       views: 0,
@@ -99,6 +100,8 @@ class Api::V1::ArticlesController < Api::ApplicationController
       user_id: article.user.id
       })
       # end
+    # article = Article.create(article_params)
+    # article.save!
 
     render json: {id: article.id}
   end

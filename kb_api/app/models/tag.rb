@@ -1,5 +1,4 @@
 class Tag < ApplicationRecord
-
   before_validation :downcase_name
   before_save :downcase_name
 

@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import { Session } from '../requests'
 
 import { useState, useEffect } from 'react'
+import brain from './brain-no_bg.png'
 
 const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
   // const [access, setAccess] = useState({})
@@ -38,7 +39,7 @@ const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
   return (
     <nav>
       <NavLink to="/" className="nav-link">
-        Home
+        <img src={brain} className="logo"/>
       </NavLink>
 
       <NavLink to="/articles" className="nav-link">
@@ -68,7 +69,7 @@ const NavBar = ({ currentUser, onSignOut, accessLevel }) => {
           </NavLink> */}
           <span className="nav-link">Welcome, {currentUser.first_name}</span>
 
-          <button className="nav-link" onClick={handleSignOut}>
+          <button className="nav-link sign-out-btn" onClick={handleSignOut}>
             Sign Out
           </button>
           {/*   {accessLevel === 'admin' ? (<p>You are admin</p>) : ''} */}
