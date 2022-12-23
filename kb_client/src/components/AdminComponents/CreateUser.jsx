@@ -1,7 +1,7 @@
 import { User } from '../../requests'
 import { useNavigate } from 'react-router-dom'
 
-function SignUpPage(props) {
+function CreateUser(props) {
   const { onSignUp } = props
 
   const navigate = useNavigate()
@@ -16,21 +16,26 @@ function SignUpPage(props) {
       email: formData.get('email'),
       password: formData.get('password'),
       password_confirmation: formData.get('password_confirmation'),
+      permission_level: formData.get('permission_level'),
     }
 
-    User.create(params).then((data) => {
+    console.log(params)
+
+    User.invite_user(params).then((data) => {
+      console.log(data)
       // console.log(data[0].id)
       if (data[0].id) {
-        onSignUp()
-        navigate('/')
+        // onSignUp()
+        navigate('/admin')
       }
     })
   }
 
   return (
-    <main className="sign-in">
+    <main className="sign-in-container">
+      <h2>Create New User</h2>
       <form onSubmit={handleSubmit} className="form">
-        <div className="flex-group">
+        <div className="form-input">
           <label htmlFor="first_name">First name</label>
           <input
             type="text"
@@ -39,7 +44,7 @@ function SignUpPage(props) {
             className="sign-in-input"
           />
         </div>
-        <div className="flex-group">
+        <div className="form-input">
           <label htmlFor="last_name">Last name</label>
           <input
             type="text"
@@ -48,7 +53,7 @@ function SignUpPage(props) {
             className="sign-in-input"
           />
         </div>
-        <div className="flex-group">
+        <div className="form-input">
           <label htmlFor="email">Email</label>
           <input
             type="text"
@@ -57,7 +62,19 @@ function SignUpPage(props) {
             className="sign-in-input"
           />
         </div>
-        <div className="flex-group">
+        <div className="form-input">
+          <label htmlFor="permission_level">Permission Level</label>
+          <select
+            name="permission_level"
+            id="permission_level"
+            className="permission-container"
+          >
+            <option value="read">Read Only</option>
+            <option value="write">Read and Write</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div className="form-input">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -66,7 +83,7 @@ function SignUpPage(props) {
             className="sign-in-input"
           />
         </div>
-        <div className="flex-group">
+        <div className="form-input">
           <label htmlFor="password_confirmation">Confirm Password</label>
           <input
             type="password"
@@ -81,4 +98,4 @@ function SignUpPage(props) {
   )
 }
 
-export default SignUpPage
+export default CreateUser

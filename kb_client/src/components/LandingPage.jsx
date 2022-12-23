@@ -1,8 +1,16 @@
 import React from 'react'
+import ArticleIndex from './ArticleComponents/ArticleIndex'
+import InfoSidebar from './InfoSidebar'
+import NavSidebar from './LandingPageComponents/NavSidebar'
 
 const LandingPage = () => {
   return (
-    <div>LandingPage</div>
+    <div className='landing-page-container'>
+     {/*  <div>LandingPage</div> */}
+      <NavSidebar />
+      <ArticleIndex />
+      <InfoSidebar />
+    </div>
   )
 }
 

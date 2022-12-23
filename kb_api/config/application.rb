@@ -33,5 +33,8 @@ module KbApi
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Added by me
+    # config.active_record.use_yaml_unsafe_load = true
   end
 end

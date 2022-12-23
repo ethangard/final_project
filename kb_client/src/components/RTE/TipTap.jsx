@@ -23,11 +23,25 @@ import { Article } from '../../requests'
 import { useParams } from 'react-router-dom'
 
 const TipTap = (props) => {
-  const articleId = useParams()
-
-  const [test, setTest] = useState('')
+  // const [initialBody, setInitialBody] = useState('')
 
   const [initialContent, setInitialContent] = useState('')
+
+  // useEffect(() => {
+  //   setInitialBody(props.defaultBody)
+  // }, [])
+
+
+
+  // console.log(props.defaultBody)
+  // console.log(`All props: `, props)
+
+  //  console.log(`Logging props: `)
+  //  console.log(props)
+
+  // const articleId = useParams()
+
+  // const [test, setTest] = useState('')
 
   useEffect(() => {
     // const fetchedData = async () => {
@@ -36,7 +50,11 @@ const TipTap = (props) => {
 
     const fetchData = async () => {
       const data = await props
-      setInitialContent(data.props) 
+      // console.log(`Awaiting props: `)
+      // console.log(await props)
+      setInitialContent(await data.defaultBody)
+
+      // editor.commands.setContent(data.props)
       // console.log(data.props)
     }
     // console.log(`UseEffect Log from TipTap:`)
@@ -45,23 +63,28 @@ const TipTap = (props) => {
     // setInitialContent(props)
 
     // }
- 
-    //  fetchedData()    
+
+    //  fetchedData()
 
     fetchData()
-  }, []) 
+  }, [])
 
-  const editor = useEditor({
-    extensions: [StarterKit],
-    // content: initialContent ? initialContent : '',
-    content: initialContent ? initialContent : '',
-  })
+    const editor = useEditor({
+      extensions: [StarterKit],
+      // content: initialContent ? initialContent : '',
+      content: props.defaultBody,
+      onUpdate: ({ editor }) => {
+        const html = editor.getHTML()
+        // console.log(html)
+        props.data(html)
+      },
+    })
 
   const MenuBar = ({ editor }) => {
     const fontList = [
       { label: 'Sans-serif', value: 'sans-serif' },
       { label: 'Sans-serif', value: 'sans-serif' },
-    ]  
+    ]
 
     const [font, setFont] = useState('')
 
@@ -106,7 +129,7 @@ const TipTap = (props) => {
       >
         paragraph
       </button> */}
-        <select
+     {/*    <select
           name="fontFamily"
           placeholder="Select font..."
           value={
@@ -119,7 +142,7 @@ const TipTap = (props) => {
             setFont(fontSel)
             editor.chain().focus().setFontFamily(fontSel).run()
           }}
-        />
+        /> */}
         {/* <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
@@ -216,13 +239,18 @@ const TipTap = (props) => {
   //     </div>
   //   )
   // }
+  // setInitialContent(initialContent)
+  // setTimeout(() => {
+  //   setInitialContent({initialContent})
+  //   // console.log(editor.getHTML())
+  // }, 2000);
 
   return (
     <div className="editor-container">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
       {/*   {console.log(<EditorContent/>)} */}
-    </div> 
+    </div>
   )
 }
 

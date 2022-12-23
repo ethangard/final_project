@@ -31,15 +31,15 @@ function SignInPage(props) {
         // We can 'push' on history to manipulate the browser
         // and direct our user to any page in our app
         // props.history.push('/questions') <--- not working
-        navigate('/articles')
+        navigate('/')
       }
     })
   }
 
   return (
-    <main>
+    <div >
+      <form onSubmit={handleSubmit} className="sign-in-container">
       <h1>Sign In</h1>
-      <form onSubmit={handleSubmit}>
         {errors.length > 0 ? (
           <div>
             <h4>Failed to Sign In</h4>
@@ -48,7 +48,7 @@ function SignInPage(props) {
         ) : (
           ''
         )}
-        <div>
+        <div className='form-input'>
           <label htmlFor="email">Email</label>
           <input
             type="text"
@@ -59,7 +59,7 @@ function SignInPage(props) {
             }}
           />
         </div>
-        <div>
+        <div className='form-input'>
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -72,7 +72,7 @@ function SignInPage(props) {
         </div>
         <input type="submit" value="Sign In" />
       </form>
-    </main>
+    </div>
   )
 }
 
